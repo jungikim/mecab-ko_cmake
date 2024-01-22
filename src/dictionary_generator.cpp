@@ -14,12 +14,12 @@
 #include "dictionary.h"
 #include "dictionary_rewriter.h"
 #include "feature_index.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "mmap.h"
 #include "param.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 void copy(const char *src, const char *dst) {
   std::cout << "copying " << src << " to " <<  dst << std::endl;
@@ -73,7 +73,7 @@ class DictionaryGenerator {
     LearnerPath path;
     LearnerNode rnode;
     LearnerNode lnode;
-    rnode.stat = lnode.stat = MECAB_NOR_NODE;
+    rnode.stat = lnode.stat = MECAB_KO_NOR_NODE;
     rnode.rpath = &path;
     lnode.lpath = &path;
     path.lnode = &lnode;
@@ -126,7 +126,7 @@ class DictionaryGenerator {
     LearnerPath path;
     LearnerNode rnode;
     LearnerNode lnode;
-    rnode.stat  = lnode.stat = MECAB_NOR_NODE;
+    rnode.stat  = lnode.stat = MECAB_KO_NOR_NODE;
     rnode.rpath = &path;
     lnode.lpath = &path;
     path.lnode  = &lnode;
@@ -179,7 +179,7 @@ class DictionaryGenerator {
  public:
 
   static int run(int argc, char **argv) {
-    static const MeCab::Option long_options[] = {
+    static const MeCabKo::Option long_options[] = {
       { "dicdir",  'd',  ".",   "DIR", "set DIR as dicdir(default \".\" )" },
       { "outdir",  'o',  ".",   "DIR", "set DIR as output dir" },
       { "model",   'm',  0,     "FILE",   "use FILE as model file" },
@@ -290,6 +290,6 @@ class DictionaryGenerator {
 }
 
 // export functions
-int mecab_dict_gen(int argc, char **argv) {
-  return MeCab::DictionaryGenerator::run(argc, argv);
+int mecab_ko_dict_gen(int argc, char **argv) {
+  return MeCabKo::DictionaryGenerator::run(argc, argv);
 }

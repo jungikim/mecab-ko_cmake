@@ -3,31 +3,31 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_LEARNER_NODE_H_
-#define MECAB_LEARNER_NODE_H_
+#ifndef MECAB_KO_LEARNER_NODE_H_
+#define MECAB_KO_LEARNER_NODE_H_
 
 #include <cstring>
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "common.h"
 #include "utils.h"
 
-struct mecab_learner_path_t {
-  struct mecab_learner_node_t*  rnode;
-  struct mecab_learner_path_t*  rnext;
-  struct mecab_learner_node_t*  lnode;
-  struct mecab_learner_path_t*  lnext;
+struct mecab_ko_learner_path_t {
+  struct mecab_ko_learner_node_t*  rnode;
+  struct mecab_ko_learner_path_t*  rnext;
+  struct mecab_ko_learner_node_t*  lnode;
+  struct mecab_ko_learner_path_t*  lnext;
   double                        cost;
   const int                     *fvector;
 };
 
-struct mecab_learner_node_t {
-  struct mecab_learner_node_t *prev;
-  struct mecab_learner_node_t *next;
-  struct mecab_learner_node_t *enext;
-  struct mecab_learner_node_t *bnext;
-  struct mecab_learner_path_t *rpath;
-  struct mecab_learner_path_t *lpath;
-  struct mecab_learner_node_t *anext;
+struct mecab_ko_learner_node_t {
+  struct mecab_ko_learner_node_t *prev;
+  struct mecab_ko_learner_node_t *next;
+  struct mecab_ko_learner_node_t *enext;
+  struct mecab_ko_learner_node_t *bnext;
+  struct mecab_ko_learner_path_t *rpath;
+  struct mecab_ko_learner_path_t *lpath;
+  struct mecab_ko_learner_node_t *anext;
   const char                  *surface;
   const char                  *feature;
   unsigned int                 id;
@@ -45,13 +45,13 @@ struct mecab_learner_node_t {
   double                       wcost;
   double                       cost;
   const int                    *fvector;
-  struct mecab_token_t         *token;
+  struct mecab_ko_token_t         *token;
 };
 
-namespace MeCab {
+namespace MeCabKo {
 
-typedef struct mecab_learner_path_t LearnerPath;
-typedef struct mecab_learner_node_t LearnerNode;
+typedef struct mecab_ko_learner_path_t LearnerPath;
+typedef struct mecab_ko_learner_node_t LearnerNode;
 
 template <class T1, class T2> T1 repeat_find_if(T1 b, T1 e,
                                                 const T2& v, size_t n) {
@@ -73,8 +73,8 @@ inline bool node_cmp_eq(const LearnerNode &node1,
       strncmp(node1.surface, node2.surface, node1.length) == 0) {
     const char *p1 = node1.feature;
     const char *p2 = node2.feature;
-    // There is NO case when node1 becomes MECAB_UNK_NODE
-    if (node2.stat == MECAB_UNK_NODE)
+    // There is NO case when node1 becomes MECAB_KO_UNK_NODE
+    if (node2.stat == MECAB_KO_UNK_NODE)
       size = unk_size;  // system cannot output other extra information
     const char *r1 = repeat_find_if(p1, p1 + std::strlen(p1), ',', size);
     const char *r2 = repeat_find_if(p2, p2 + std::strlen(p2), ',', size);
@@ -88,8 +88,8 @@ inline bool node_cmp_eq(const LearnerNode &node1,
 }
 
 inline bool is_empty(LearnerPath *path) {
-  return ((!path->rnode->rpath && path->rnode->stat != MECAB_EOS_NODE) ||
-          (!path->lnode->lpath && path->lnode->stat != MECAB_BOS_NODE) );
+  return ((!path->rnode->rpath && path->rnode->stat != MECAB_KO_EOS_NODE) ||
+          (!path->lnode->lpath && path->lnode->stat != MECAB_KO_BOS_NODE) );
 }
 
 inline void calc_expectation(LearnerPath *path, double *expected, double Z) {
@@ -105,7 +105,7 @@ inline void calc_expectation(LearnerPath *path, double *expected, double Z) {
     expected[*f] += c;
   }
 
-  if (path->rnode->stat != MECAB_EOS_NODE) {
+  if (path->rnode->stat != MECAB_KO_EOS_NODE) {
     for (const int *f = path->rnode->fvector; *f != -1; ++f) {
       expected[*f] += c;
     }
@@ -131,4 +131,4 @@ inline void calc_beta(LearnerNode *n) {
 }
 }
 
-#endif  // MECAB_LEARNER_NODE_H_
+#endif  // MECAB_KO_LEARNER_NODE_H_

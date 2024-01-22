@@ -3,15 +3,15 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_FREELIST_H
-#define MECAB_FREELIST_H
+#ifndef MECAB_KO_FREELIST_H
+#define MECAB_KO_FREELIST_H
 
 #include <vector>
 #include <algorithm>
 #include "utils.h"
 #include "common.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 template <class T> class FreeList {
  private:

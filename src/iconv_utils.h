@@ -3,8 +3,8 @@
 //
 //   Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //   Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_ICONV_H
-#define MECAB_ICONV_H
+#ifndef MECAB_KO_ICONV_H
+#define MECAB_KO_ICONV_H
 
 #if defined HAVE_ICONV
 #include <iconv.h>
@@ -14,7 +14,7 @@
 #include "windows.h"
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Iconv {
  private:

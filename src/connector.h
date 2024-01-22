@@ -3,15 +3,15 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_CONNECTOR_H_
-#define MECAB_CONNECTOR_H_
+#ifndef MECAB_KO_CONNECTOR_H_
+#define MECAB_KO_CONNECTOR_H_
 
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "mmap.h"
 #include "common.h"
 #include "scoped_ptr.h"
 
-namespace MeCab {
+namespace MeCabKo {
 class Param;
 
 class Connector {
@@ -77,4 +77,4 @@ class Connector {
   virtual ~Connector() { this->close(); }
 };
 }
-#endif  // MECAB_CONNECTOR_H_
+#endif  // MECAB_KO_CONNECTOR_H_

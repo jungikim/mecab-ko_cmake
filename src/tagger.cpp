@@ -8,7 +8,7 @@
 #include <iterator>
 #include "common.h"
 #include "connector.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "nbest_generator.h"
 #include "param.h"
 #include "scoped_ptr.h"
@@ -26,12 +26,12 @@
 const char *getGlobalError();
 void setGlobalError(const char *str);
 
-namespace MeCab {
+namespace MeCabKo {
 namespace {
 
 const float kDefaultTheta = 0.75;
 
-const MeCab::Option long_options[] = {
+const MeCabKo::Option long_options[] = {
   { "rcfile",        'r',  0, "FILE",    "use FILE as resource file" },
   { "dicdir",        'd',  0, "DIR",    "set DIR  as a system dicdir" },
   { "userdic",        'u',  0, "FILE",    "use FILE as a user dictionary" },
@@ -63,7 +63,7 @@ const MeCab::Option long_options[] = {
     "use STR as the feature for unknown word" },
   { "input-buffer-size",  'b',  0, "INT",
     "set input buffer size (default 8192)" },
-  { "dump-config", 'P', 0, 0, "dump MeCab parameters" },
+  { "dump-config", 'P', 0, 0, "dump MeCabKo parameters" },
   { "allocate-sentence",  'C', 0, 0,
     "allocate new memory for input sentence" },
   { "theta",        't',  "0.75",  "FLOAT",
@@ -338,7 +338,7 @@ class LatticeImpl : public Lattice {
 
 ModelImpl::ModelImpl()
     : viterbi_(new Viterbi), writer_(new Writer),
-      request_type_(MECAB_ONE_BEST), theta_(0.0) {}
+      request_type_(MECAB_KO_ONE_BEST), theta_(0.0) {}
 
 ModelImpl::~ModelImpl() {
   delete viterbi_;
@@ -444,7 +444,7 @@ Lattice *ModelImpl::createLattice() const {
 
 TaggerImpl::TaggerImpl()
     : current_model_(0),
-      request_type_(MECAB_ONE_BEST), theta_(kDefaultTheta) {}
+      request_type_(MECAB_KO_ONE_BEST), theta_(kDefaultTheta) {}
 
 TaggerImpl::~TaggerImpl() {}
 
@@ -497,14 +497,14 @@ int TaggerImpl::request_type() const {
 
 void TaggerImpl::set_partial(bool partial) {
   if (partial) {
-    request_type_ |= MECAB_PARTIAL;
+    request_type_ |= MECAB_KO_PARTIAL;
   } else {
-    request_type_ &= ~MECAB_PARTIAL;
+    request_type_ &= ~MECAB_KO_PARTIAL;
   }
 }
 
 bool TaggerImpl::partial() const {
-  return request_type_ & MECAB_PARTIAL;
+  return request_type_ & MECAB_KO_PARTIAL;
 }
 
 void TaggerImpl::set_theta(float theta) {
@@ -517,11 +517,11 @@ float TaggerImpl::theta() const {
 
 void TaggerImpl::set_lattice_level(int level) {
   switch (level) {
-    case 0: request_type_ |= MECAB_ONE_BEST;
+    case 0: request_type_ |= MECAB_KO_ONE_BEST;
       break;
-    case 1: request_type_ |= MECAB_NBEST;
+    case 1: request_type_ |= MECAB_KO_NBEST;
       break;
-    case 2: request_type_ |= MECAB_MARGINAL_PROB;
+    case 2: request_type_ |= MECAB_KO_MARGINAL_PROB;
       break;
     default:
       break;
@@ -529,9 +529,9 @@ void TaggerImpl::set_lattice_level(int level) {
 }
 
 int TaggerImpl::lattice_level() const {
-  if (request_type_ & MECAB_MARGINAL_PROB) {
+  if (request_type_ & MECAB_KO_MARGINAL_PROB) {
     return 2;
-  } else if (request_type_ & MECAB_NBEST) {
+  } else if (request_type_ & MECAB_KO_NBEST) {
     return 1;
   } else {
     return 0;
@@ -540,14 +540,14 @@ int TaggerImpl::lattice_level() const {
 
 void TaggerImpl::set_all_morphs(bool all_morphs) {
   if (all_morphs) {
-    request_type_ |= MECAB_ALL_MORPHS;
+    request_type_ |= MECAB_KO_ALL_MORPHS;
   } else {
-    request_type_ &= ~MECAB_ALL_MORPHS;
+    request_type_ &= ~MECAB_KO_ALL_MORPHS;
   }
 }
 
 bool TaggerImpl::all_morphs() const {
-  return request_type_ & MECAB_ALL_MORPHS;
+  return request_type_ & MECAB_KO_ALL_MORPHS;
 }
 
 bool TaggerImpl::parse(Lattice *lattice) const {
@@ -618,7 +618,7 @@ bool TaggerImpl::parseNBestInit(const char *str, size_t len) {
   Lattice *lattice = mutable_lattice();
   lattice->set_sentence(str, len);
   initRequestType();
-  lattice->add_request_type(MECAB_NBEST);
+  lattice->add_request_type(MECAB_KO_NBEST);
   if (!parse(lattice)) {
     set_what(lattice->what());
     return false;
@@ -672,7 +672,7 @@ const char* TaggerImpl::parseNBest(size_t N,
   Lattice *lattice = mutable_lattice();
   lattice->set_sentence(str, len);
   initRequestType();
-  lattice->add_request_type(MECAB_NBEST);
+  lattice->add_request_type(MECAB_KO_NBEST);
 
   if (!parse(lattice)) {
     set_what(lattice->what());
@@ -692,7 +692,7 @@ const char* TaggerImpl::parseNBest(size_t N, const char* str, size_t len,
   Lattice *lattice = mutable_lattice();
   lattice->set_sentence(str, len);
   initRequestType();
-  lattice->add_request_type(MECAB_NBEST);
+  lattice->add_request_type(MECAB_KO_NBEST);
 
   if (!parse(lattice)) {
     set_what(lattice->what());
@@ -732,7 +732,7 @@ const DictionaryInfo *TaggerImpl::dictionary_info() const {
 
 LatticeImpl::LatticeImpl(const Writer *writer)
     : sentence_(0), size_(0), theta_(kDefaultTheta), Z_(0.0),
-      request_type_(MECAB_ONE_BEST),
+      request_type_(MECAB_KO_ONE_BEST),
       writer_(writer),
       ostrs_(0),
       allocator_(new Allocator<Node, Path>) {
@@ -766,8 +766,8 @@ void LatticeImpl::set_sentence(const char *sentence, size_t len) {
   end_nodes_.resize(len + 4);
   begin_nodes_.resize(len + 4);
 
-  if (has_request_type(MECAB_ALLOCATE_SENTENCE) ||
-      has_request_type(MECAB_PARTIAL)) {
+  if (has_request_type(MECAB_KO_ALLOCATE_SENTENCE) ||
+      has_request_type(MECAB_KO_PARTIAL)) {
     char *new_sentence = allocator()->strdup(sentence, len);
     sentence_ = new_sentence;
   } else {
@@ -782,8 +782,8 @@ void LatticeImpl::set_sentence(const char *sentence, size_t len) {
 }
 
 bool LatticeImpl::next() {
-  if (!has_request_type(MECAB_NBEST)) {
-    set_what("MECAB_NBEST request type is not set");
+  if (!has_request_type(MECAB_KO_NBEST)) {
+    set_what("MECAB_KO_NBEST request type is not set");
     return false;
   }
 
@@ -826,13 +826,13 @@ void LatticeImpl::set_result(const char *result) {
   bos_node->surface = const_cast<const char *>(BOS_KEY);  // dummy
   bos_node->feature = "BOS/EOS";
   bos_node->isbest = 1;
-  bos_node->stat = MECAB_BOS_NODE;
+  bos_node->stat = MECAB_KO_BOS_NODE;
 
   Node *eos_node = allocator()->newNode();
   eos_node->surface = const_cast<const char *>(BOS_KEY);  // dummy
   eos_node->feature = "BOS/EOS";
   eos_node->isbest = 1;
-  eos_node->stat = MECAB_EOS_NODE;
+  eos_node->stat = MECAB_KO_EOS_NODE;
 
   bos_node->surface = sentence_;
   end_nodes_[0] = bos_node;
@@ -847,7 +847,7 @@ void LatticeImpl::set_result(const char *result) {
     node->length = surfaces[i].size();
     node->rlength = surfaces[i].size();
     node->isbest = 1;
-    node->stat = MECAB_NOR_NODE;
+    node->stat = MECAB_KO_NOR_NODE;
     node->wcost = 0;
     node->cost = 0;
     node->feature = allocator()->strdup(features[i].c_str(),
@@ -969,7 +969,7 @@ const char *LatticeImpl::enumNBestAsStringInternal(size_t N,
   if (writer_) {
     Node eon_node;
     memset(&eon_node, 0, sizeof(eon_node));
-    eon_node.stat = MECAB_EON_NODE;
+    eon_node.stat = MECAB_KO_EON_NODE;
     eon_node.next = 0;
     eon_node.surface = this->sentence() + this->size();
     if (!writer_->writeNode(this, &eon_node, os)) {
@@ -994,7 +994,7 @@ int LatticeImpl::boundary_constraint(size_t pos) const {
   if (!boundary_constraint_.empty()) {
     return boundary_constraint_[pos];
   }
-  return MECAB_ANY_BOUNDARY;
+  return MECAB_KO_ANY_BOUNDARY;
 }
 
 const char *LatticeImpl::feature_constraint(size_t begin_pos) const {
@@ -1007,7 +1007,7 @@ const char *LatticeImpl::feature_constraint(size_t begin_pos) const {
 void LatticeImpl::set_boundary_constraint(size_t pos,
                                           int boundary_constraint_type) {
   if (boundary_constraint_.empty()) {
-    boundary_constraint_.resize(size() + 4, MECAB_ANY_BOUNDARY);
+    boundary_constraint_.resize(size() + 4, MECAB_KO_ANY_BOUNDARY);
   }
   boundary_constraint_[pos] = boundary_constraint_type;
 }
@@ -1024,10 +1024,10 @@ void LatticeImpl::set_feature_constraint(size_t begin_pos, size_t end_pos,
 
   end_pos = std::min(end_pos, size());
 
-  set_boundary_constraint(begin_pos, MECAB_TOKEN_BOUNDARY);
-  set_boundary_constraint(end_pos, MECAB_TOKEN_BOUNDARY);
+  set_boundary_constraint(begin_pos, MECAB_KO_TOKEN_BOUNDARY);
+  set_boundary_constraint(end_pos, MECAB_KO_TOKEN_BOUNDARY);
   for (size_t i = begin_pos + 1; i < end_pos; ++i) {
-    set_boundary_constraint(i, MECAB_INSIDE_TOKEN);
+    set_boundary_constraint(i, MECAB_KO_INSIDE_TOKEN);
   }
 
   feature_constraint_[begin_pos] = feature;
@@ -1128,16 +1128,16 @@ Lattice *createLattice() {
 void deleteLattice(Lattice *lattice) {
   delete lattice;
 }
-}  // MeCab
+}  // MeCabKo
 
-int mecab_do(int argc, char **argv) {
+int mecab_ko_do(int argc, char **argv) {
 #define WHAT_ERROR(msg) do {                    \
     std::cout << msg << std::endl;              \
     return EXIT_FAILURE; }                      \
   while (0);
 
-  MeCab::Param param;
-  if (!param.open(argc, argv, MeCab::long_options)) {
+  MeCabKo::Param param;
+  if (!param.open(argc, argv, MeCabKo::long_options)) {
     std::cout << param.what() << std::endl;
     return EXIT_FAILURE;
   }
@@ -1162,9 +1162,9 @@ int mecab_do(int argc, char **argv) {
               << "use --marginal or --nbest." << std::endl;
   }
 
-  MeCab::scoped_ptr<MeCab::ModelImpl> model(new MeCab::ModelImpl);
+  MeCabKo::scoped_ptr<MeCabKo::ModelImpl> model(new MeCabKo::ModelImpl);
   if (!model->open(param)) {
-    std::cout << MeCab::getLastError() << std::endl;
+    std::cout << MeCabKo::getLastError() << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -1178,7 +1178,7 @@ int mecab_do(int argc, char **argv) {
     WHAT_ERROR("invalid N value");
   }
 
-  MeCab::ostream_wrapper ofs(ofilename.c_str());
+  MeCabKo::ostream_wrapper ofs(ofilename.c_str());
   if (!*ofs) {
     WHAT_ERROR("no such file or directory: " << ofilename);
   }
@@ -1189,7 +1189,7 @@ int mecab_do(int argc, char **argv) {
   }
 
   if (param.get<bool>("dictionary-info")) {
-    for (const MeCab::DictionaryInfo *d = model->dictionary_info();
+    for (const MeCabKo::DictionaryInfo *d = model->dictionary_info();
          d; d = d->next) {
       *ofs << "filename:\t" << d->filename << std::endl;
       *ofs << "version:\t" << d->version << std::endl;
@@ -1220,17 +1220,17 @@ int mecab_do(int argc, char **argv) {
     ibufsize *= 8;
   }
 
-  MeCab::scoped_array<char> ibuf_data(new char[ibufsize]);
+  MeCabKo::scoped_array<char> ibuf_data(new char[ibufsize]);
   char *ibuf = ibuf_data.get();
 
-  MeCab::scoped_ptr<MeCab::Tagger> tagger(model->createTagger());
+  MeCabKo::scoped_ptr<MeCabKo::Tagger> tagger(model->createTagger());
 
   if (!tagger.get()) {
     WHAT_ERROR("cannot create tagger");
   }
 
   for (size_t i = 0; i < rest.size(); ++i) {
-    MeCab::istream_wrapper ifs(rest[i].c_str());
+    MeCabKo::istream_wrapper ifs(rest[i].c_str());
     if (!*ifs) {
       WHAT_ERROR("no such file or directory: " << rest[i]);
     }
@@ -1240,7 +1240,7 @@ int mecab_do(int argc, char **argv) {
         ifs->getline(ibuf, ibufsize);
       } else {
         std::string sentence;
-        MeCab::scoped_fixed_array<char, BUF_SIZE> line;
+        MeCabKo::scoped_fixed_array<char, BUF_SIZE> line;
         for (;;) {
           if (!ifs->getline(line.get(), line.size())) {
             ifs->clear(std::ios::eofbit|std::ios::badbit);

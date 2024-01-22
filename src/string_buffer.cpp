@@ -10,7 +10,7 @@
 
 #define DEFAULT_ALLOC_SIZE BUF_SIZE
 
-namespace MeCab {
+namespace MeCabKo {
 
 bool StringBuffer::reserve(size_t length) {
   if (!is_delete_) {

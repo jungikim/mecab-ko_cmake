@@ -1,3 +1,12 @@
+# fork of https://bitbucket.org/eunjeon/mecab-ko.git
+
+```
+mkdir build
+cd build
+cmake ..
+make install
+```
+
 # mecab-ko 소개
 
 [mecab-ko](https://bitbucket.org/eunjeon/mecab-ko)는 [은전한닢 프로젝트](http://eunjeon.blogspot.kr/)에서 사용하기 위한 [MeCab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html)의 fork 프로젝트 입니다.

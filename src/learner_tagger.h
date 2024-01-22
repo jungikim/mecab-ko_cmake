@@ -3,17 +3,17 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_TAGGER_H
-#define MECAB_TAGGER_H
+#ifndef MECAB_KO_TAGGER_H
+#define MECAB_KO_TAGGER_H
 
 #include <vector>
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "freelist.h"
 #include "feature_index.h"
 #include "tokenizer.h"
 #include "scoped_ptr.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class FeatureIndex;
 

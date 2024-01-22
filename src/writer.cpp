@@ -13,7 +13,7 @@
 #include "utils.h"
 #include "writer.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 Writer::Writer() : write_(&Writer::writeLattice) {}
 Writer::~Writer() {}
@@ -144,9 +144,9 @@ bool Writer::writeEM(Lattice *lattice, StringBuffer *os) const {
   for (const Node *node = lattice->bos_node(); node; node = node->next) {
     if (node->prob >= min_prob) {
       *os << "U\t";
-      if (node->stat == MECAB_BOS_NODE) {
+      if (node->stat == MECAB_KO_BOS_NODE) {
         *os << "BOS";
-      } else if (node->stat == MECAB_EOS_NODE) {
+      } else if (node->stat == MECAB_KO_EOS_NODE) {
         *os << "EOS";
       }  else {
         os->write(node->surface, node->length);
@@ -168,9 +168,9 @@ bool Writer::writeDump(Lattice *lattice, StringBuffer *os) const {
   const char *str = lattice->sentence();
   for (const Node *node = lattice->bos_node(); node; node = node->next) {
     *os << node->id << ' ';
-    if (node->stat == MECAB_BOS_NODE) {
+    if (node->stat == MECAB_KO_BOS_NODE) {
       *os << "BOS";
-    } else if (node->stat == MECAB_EOS_NODE) {
+    } else if (node->stat == MECAB_KO_EOS_NODE) {
       *os << "EOS";
     } else {
       os->write(node->surface, node->length);
@@ -204,7 +204,7 @@ bool Writer::writeUser(Lattice *lattice, StringBuffer *os) const {
   }
   const Node *node = 0;
   for (node = lattice->bos_node()->next; node->next; node = node->next) {
-    const char *fmt = (node->stat == MECAB_UNK_NODE ? unk_format_.get() :
+    const char *fmt = (node->stat == MECAB_KO_UNK_NODE ? unk_format_.get() :
                        node_format_.get());
     if (!writeNode(lattice, fmt, node, os)) {
       return false;
@@ -219,15 +219,15 @@ bool Writer::writeUser(Lattice *lattice, StringBuffer *os) const {
 bool Writer::writeNode(Lattice *lattice, const Node *node,
                        StringBuffer *os) const {
   switch (node->stat) {
-    case MECAB_BOS_NODE:
+    case MECAB_KO_BOS_NODE:
       return writeNode(lattice, bos_format_.get(), node, os);
-    case MECAB_EOS_NODE:
+    case MECAB_KO_EOS_NODE:
       return writeNode(lattice, eos_format_.get(), node, os);
-    case MECAB_UNK_NODE:
+    case MECAB_KO_UNK_NODE:
       return writeNode(lattice, unk_format_.get(), node, os);
-    case MECAB_NOR_NODE:
+    case MECAB_KO_NOR_NODE:
       return writeNode(lattice, node_format_.get(), node, os);
-    case MECAB_EON_NODE:
+    case MECAB_KO_EON_NODE:
       return writeNode(lattice, eon_format_.get(), node, os);
   }
   return true;

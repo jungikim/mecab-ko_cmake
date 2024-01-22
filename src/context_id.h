@@ -3,14 +3,14 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_CONTEXT_ID_H
-#define MECAB_CONTEXT_ID_H
+#ifndef MECAB_KO_CONTEXT_ID_H
+#define MECAB_KO_CONTEXT_ID_H
 
 #include <map>
 #include <string>
 #include <vector>
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Param;
 class Iconv;

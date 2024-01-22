@@ -11,19 +11,19 @@
 #include "dictionary.h"
 #include "dictionary_rewriter.h"
 #include "feature_index.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "param.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 
 class DictionaryComplier {
  public:
   static int run(int argc, char **argv) {
-    static const MeCab::Option long_options[] = {
+    static const MeCabKo::Option long_options[] = {
       { "dicdir",   'd',   ".",   "DIR", "set DIR as dic dir (default \".\")" },
       { "outdir",   'o',   ".",   "DIR",
         "set DIR as output dir (default \".\")"  },
@@ -37,13 +37,13 @@ class DictionaryComplier {
       { "build-charcategory", 'C', 0, 0,   "build character category maps" },
       { "build-sysdic",  's', 0, 0,   "build system dictionary" },
       { "build-matrix",    'm',  0,   0,   "build connection matrix" },
-      { "charset",   'c',  MECAB_DEFAULT_CHARSET, "ENC",
+      { "charset",   'c',  MECAB_KO_DEFAULT_CHARSET, "ENC",
         "make charset of binary dictionary ENC (default "
-        MECAB_DEFAULT_CHARSET ")"  },
-      { "charset",   't',  MECAB_DEFAULT_CHARSET, "ENC", "alias of -c"  },
-      { "dictionary-charset",  'f',  MECAB_DEFAULT_CHARSET,
+        MECAB_KO_DEFAULT_CHARSET ")"  },
+      { "charset",   't',  MECAB_KO_DEFAULT_CHARSET, "ENC", "alias of -c"  },
+      { "dictionary-charset",  'f',  MECAB_KO_DEFAULT_CHARSET,
         "ENC", "assume charset of input CSVs as ENC (default "
-        MECAB_DEFAULT_CHARSET ")"  },
+        MECAB_KO_DEFAULT_CHARSET ")"  },
       { "wakati",    'w',  0,   0,   "build wakati-gaki only dictionary", },
       { "posid",     'p',  0,   0,   "assign Part-of-speech id" },
       { "node-format", 'F', 0,  "STR",
@@ -91,7 +91,7 @@ class DictionaryComplier {
 
     if (!userdic.empty()) {
       CHECK_DIE(dic.size()) << "no dictionaries are specified";
-      param.set("type", static_cast<int>(MECAB_USR_DIC));
+      param.set("type", static_cast<int>(MECAB_KO_USR_DIC));
       if (opt_assign_user_dictionary_costs) {
         Dictionary::assignUserDictionaryCosts(param, dic,
                                               userdic.c_str());
@@ -114,7 +114,7 @@ class DictionaryComplier {
       if (opt_unknown) {
         std::vector<std::string> tmp;
         tmp.push_back(DCONF(UNK_DEF_FILE));
-        param.set("type", static_cast<int>(MECAB_UNK_DIC));
+        param.set("type", static_cast<int>(MECAB_KO_UNK_DIC));
         Dictionary::compile(param, tmp, OCONF(UNK_DIC_FILE));
       }
 
@@ -131,7 +131,7 @@ class DictionaryComplier {
 
       if (opt_sysdic) {
         CHECK_DIE(dic.size()) << "no dictionaries are specified";
-        param.set("type", static_cast<int>(MECAB_SYS_DIC));
+        param.set("type", static_cast<int>(MECAB_KO_SYS_DIC));
         Dictionary::compile(param, dic, OCONF(SYS_DIC_FILE));
       }
 
@@ -151,6 +151,6 @@ class DictionaryComplier {
 #undef OCONF
 }
 
-int mecab_dict_index(int argc, char **argv) {
-  return MeCab::DictionaryComplier::run(argc, argv);
+int mecab_ko_dict_index(int argc, char **argv) {
+  return MeCabKo::DictionaryComplier::run(argc, argv);
 }

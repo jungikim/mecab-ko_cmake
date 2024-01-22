@@ -9,7 +9,7 @@
 #include <cstring>
 #include "common.h"
 #include "connector.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "nbest_generator.h"
 #include "param.h"
 #include "viterbi.h"
@@ -17,7 +17,7 @@
 #include "string_buffer.h"
 #include "tokenizer.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 namespace {
 void calc_alpha(Node *n, double beta) {
@@ -77,8 +77,8 @@ bool Viterbi::analyze(Lattice *lattice) const {
   }
 
   bool result = false;
-  if (lattice->has_request_type(MECAB_NBEST) ||
-      lattice->has_request_type(MECAB_MARGINAL_PROB)) {
+  if (lattice->has_request_type(MECAB_KO_NBEST) ||
+      lattice->has_request_type(MECAB_KO_MARGINAL_PROB)) {
     // IsAllPath=true
     if (lattice->has_constraint()) {
       result = viterbi<true, true>(lattice);
@@ -127,7 +127,7 @@ const Connector *Viterbi::connector() const {
 
 // static
 bool Viterbi::forwardbackward(Lattice *lattice) {
-  if (!lattice->has_request_type(MECAB_MARGINAL_PROB)) {
+  if (!lattice->has_request_type(MECAB_KO_MARGINAL_PROB)) {
     return true;
   }
 
@@ -175,7 +175,7 @@ bool Viterbi::buildResultForNBest(Lattice *lattice) {
 
 // static
 bool Viterbi::buildAllLattice(Lattice *lattice) {
-  if (!lattice->has_request_type(MECAB_ALL_MORPHS)) {
+  if (!lattice->has_request_type(MECAB_KO_ALL_MORPHS)) {
     return true;
   }
 
@@ -200,7 +200,7 @@ bool Viterbi::buildAlternative(Lattice *lattice) {
 
   const Node *bos_node = lattice->bos_node();
   for (const Node *node = bos_node; node; node = node->next) {
-    if (node->stat == MECAB_BOS_NODE || node->stat == MECAB_EOS_NODE) {
+    if (node->stat == MECAB_KO_BOS_NODE || node->stat == MECAB_KO_EOS_NODE) {
       continue;
     }
     const size_t pos = node->surface - lattice->sentence() -
@@ -238,7 +238,7 @@ bool Viterbi::buildBestLattice(Lattice *lattice) {
 
 // static
 bool Viterbi::initNBest(Lattice *lattice) {
-  if (!lattice->has_request_type(MECAB_NBEST)) {
+  if (!lattice->has_request_type(MECAB_KO_NBEST)) {
     return true;
   }
   lattice->allocator()->nbest_generator()->set(lattice);
@@ -247,11 +247,11 @@ bool Viterbi::initNBest(Lattice *lattice) {
 
 // static
 bool Viterbi::initPartial(Lattice *lattice) {
-  if (!lattice->has_request_type(MECAB_PARTIAL)) {
+  if (!lattice->has_request_type(MECAB_KO_PARTIAL)) {
     if (lattice->has_constraint()) {
-      lattice->set_boundary_constraint(0, MECAB_TOKEN_BOUNDARY);
+      lattice->set_boundary_constraint(0, MECAB_KO_TOKEN_BOUNDARY);
       lattice->set_boundary_constraint(lattice->size(),
-                                       MECAB_TOKEN_BOUNDARY);
+                                       MECAB_KO_TOKEN_BOUNDARY);
     }
     return true;
   }
@@ -296,13 +296,13 @@ bool Viterbi::initPartial(Lattice *lattice) {
     const char *surface = tokens[i].first;
     const char *feature = tokens[i].second;
     const size_t len = std::strlen(surface);
-    lattice->set_boundary_constraint(pos, MECAB_TOKEN_BOUNDARY);
-    lattice->set_boundary_constraint(pos + len, MECAB_TOKEN_BOUNDARY);
+    lattice->set_boundary_constraint(pos, MECAB_KO_TOKEN_BOUNDARY);
+    lattice->set_boundary_constraint(pos + len, MECAB_KO_TOKEN_BOUNDARY);
     if (feature) {
       lattice->set_feature_constraint(pos, pos + len, feature);
       for (size_t n = 1; n < len; ++n) {
         lattice->set_boundary_constraint(pos + n,
-                                         MECAB_INSIDE_TOKEN);
+                                         MECAB_KO_INSIDE_TOKEN);
       }
     }
     pos += len;

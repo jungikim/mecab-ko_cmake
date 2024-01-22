@@ -3,8 +3,8 @@
 //
 //   Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //   Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_UTILS_H
-#define MECAB_UTILS_H
+#ifndef MECAB_KO_UTILS_H
+#define MECAB_KO_UTILS_H
 
 #include <algorithm>
 #include <cstdlib>
@@ -36,7 +36,7 @@ typedef unsigned __int64 uint64_t;
 #endif  // _WIN32
 #endif  // HAVE_STDINT_H
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Param;
 

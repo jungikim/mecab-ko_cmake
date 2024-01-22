@@ -20,7 +20,7 @@ namespace zlib {
 #define LG(p)((unsigned long)(SH(p)) |((unsigned long)(SH((p)+2)) << 16))
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 
 namespace Darts {
 

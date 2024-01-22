@@ -11,7 +11,7 @@
 #include "param.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 bool Connector::open(const Param &param) {
   const std::string filename = create_filename

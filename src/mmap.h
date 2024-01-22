@@ -3,8 +3,8 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_MMAP_H
-#define MECAB_MMAP_H
+#ifndef MECAB_KO_MMAP_H
+#define MECAB_KO_MMAP_H
 
 #include <errno.h>
 #include <string>
@@ -54,7 +54,7 @@ extern "C" {
 #define O_BINARY 0
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 
 template <class T> class Mmap {
  private:

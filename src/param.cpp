@@ -14,7 +14,7 @@
 #include "config.h"
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 namespace {
 void init_param(std::string *help,
                 std::string *version,

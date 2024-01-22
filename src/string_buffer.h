@@ -3,14 +3,14 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_STRINGBUFFER_H
-#define MECAB_STRINGBUFFER_H
+#ifndef MECAB_KO_STRINGBUFFER_H
+#define MECAB_KO_STRINGBUFFER_H
 
 #include <string>
 #include "common.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 #define _ITOA(n)  do { char fbuf[64]; itoa(n, fbuf); return this->write(fbuf); } while (0)
 #define _UITOA(n) do { char fbuf[64]; uitoa(n, fbuf); return this->write(fbuf);} while (0)

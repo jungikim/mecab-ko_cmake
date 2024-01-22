@@ -32,11 +32,11 @@ extern HINSTANCE DllInstance;
 #endif
 
 #include "common.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "param.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
 std::wstring Utf8ToWide(const std::string &input) {
@@ -253,37 +253,37 @@ int progress_bar(const char* message, size_t current, size_t total) {
 }
 
 int load_request_type(const Param &param) {
-  int request_type = MECAB_ONE_BEST;
+  int request_type = MECAB_KO_ONE_BEST;
 
   if (param.get<bool>("allocate-sentence")) {
-    request_type |= MECAB_ALLOCATE_SENTENCE;
+    request_type |= MECAB_KO_ALLOCATE_SENTENCE;
   }
 
   if (param.get<bool>("partial")) {
-    request_type |= MECAB_PARTIAL;
+    request_type |= MECAB_KO_PARTIAL;
   }
 
   if (param.get<bool>("all-morphs")) {
-    request_type |= MECAB_ALL_MORPHS;
+    request_type |= MECAB_KO_ALL_MORPHS;
   }
 
   if (param.get<bool>("marginal")) {
-    request_type |= MECAB_MARGINAL_PROB;
+    request_type |= MECAB_KO_MARGINAL_PROB;
   }
 
   const int nbest = param.get<int>("nbest");
   if (nbest >= 2) {
-    request_type |= MECAB_NBEST;
+    request_type |= MECAB_KO_NBEST;
   }
 
   // DEPRECATED:
   const int lattice_level = param.get<int>("lattice-level");
   if (lattice_level >= 1) {
-    request_type |= MECAB_NBEST;
+    request_type |= MECAB_KO_NBEST;
   }
 
   if (lattice_level >= 2) {
-    request_type |= MECAB_MARGINAL_PROB;
+    request_type |= MECAB_KO_MARGINAL_PROB;
   }
 
   return request_type;
@@ -296,8 +296,8 @@ bool load_dictionary_resource(Param *param) {
   if (rcfile.empty()) {
     const char *homedir = getenv("HOME");
     if (homedir) {
-      const std::string s = MeCab::create_filename(std::string(homedir),
-                                                   ".mecabrc");
+      const std::string s = MeCabKo::create_filename(std::string(homedir),
+                                                   ".mecabkorc");
       std::ifstream ifs(WPATH(s.c_str()));
       if (ifs) {
         rcfile = s;
@@ -333,7 +333,7 @@ bool load_dictionary_resource(Param *param) {
 
   if (rcfile.empty()) {
     ::RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"software\\mecab", 0, KEY_READ, &hKey);
-    ::RegQueryValueExW(hKey, L"mecabrc", 0, &vt,
+    ::RegQueryValueExW(hKey, L"mecabkorc", 0, &vt,
                        reinterpret_cast<BYTE *>(v.get()), &size);
     ::RegCloseKey(hKey);
     if (vt == REG_SZ) {
@@ -343,7 +343,7 @@ bool load_dictionary_resource(Param *param) {
 
   if (rcfile.empty()) {
     ::RegOpenKeyExW(HKEY_CURRENT_USER, L"software\\mecab", 0, KEY_READ, &hKey);
-    ::RegQueryValueExW(hKey, L"mecabrc", 0, &vt,
+    ::RegQueryValueExW(hKey, L"mecabkorc", 0, &vt,
                        reinterpret_cast<BYTE *>(v.get()), &size);
     ::RegCloseKey(hKey);
     if (vt == REG_SZ) {
@@ -358,7 +358,7 @@ bool load_dictionary_resource(Param *param) {
       scoped_fixed_array<wchar_t, _MAX_DIR> dir;
       _wsplitpath(v.get(), drive.get(), dir.get(), NULL, NULL);
       const std::wstring path =
-          std::wstring(drive.get()) + std::wstring(dir.get()) + L"mecabrc";
+          std::wstring(drive.get()) + std::wstring(dir.get()) + L"mecabkorc";
       if (::GetFileAttributesW(path.c_str()) != -1) {
         rcfile = WideToUtf8(path);
       }
@@ -367,7 +367,7 @@ bool load_dictionary_resource(Param *param) {
 #endif
 
   if (rcfile.empty()) {
-    rcfile = MECAB_DEFAULT_RC;
+    rcfile = MECAB_KO_DEFAULT_RC;
   }
 
   if (!param->load(rcfile.c_str())) {
@@ -560,4 +560,4 @@ bool file_exists(const char *filename) {
   }
   return true;
 }
-}  // namespace MeCab
+}  // namespace MeCabKo

@@ -3,17 +3,17 @@
 //
 //  Copyright(C) 2001-2011 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_TOKENIZER_H_
-#define MECAB_TOKENIZER_H_
+#ifndef MECAB_KO_TOKENIZER_H_
+#define MECAB_KO_TOKENIZER_H_
 
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "freelist.h"
 #include "dictionary.h"
 #include "char_property.h"
 #include "nbest_generator.h"
 #include "scoped_ptr.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Param;
 class NBestGenerator;
@@ -131,4 +131,4 @@ class Tokenizer {
   virtual ~Tokenizer() { this->close(); }
 };
 }
-#endif  // MECAB_TOKENIZER_H_
+#endif  // MECAB_KO_TOKENIZER_H_

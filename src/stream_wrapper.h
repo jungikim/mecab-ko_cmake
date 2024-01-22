@@ -3,15 +3,15 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_STREAM_WRAPPER_H_
-#define MECAB_STREAM_WRAPPER_H_
+#ifndef MECAB_KO_STREAM_WRAPPER_H_
+#define MECAB_KO_STREAM_WRAPPER_H_
 
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class istream_wrapper {
  private:
@@ -52,4 +52,4 @@ class ostream_wrapper {
 };
 }
 
-#endif  // MECAB_STREAM_WRAPPER_H_
+#endif  // MECAB_KO_STREAM_WRAPPER_H_

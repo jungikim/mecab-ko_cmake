@@ -3,8 +3,8 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_COMMON_H_
-#define MECAB_COMMON_H_
+#ifndef MECAB_KO_COMMON_H_
+#define MECAB_KO_COMMON_H_
 
 #include <algorithm>
 #include <cmath>
@@ -54,15 +54,15 @@
 #define UNK_DEF_DEFAULT           "DEFAULT,0,0,0,*\nSPACE,0,0,0,*\n"
 #define MATRIX_DEF_DEFAULT        "1 1\n0 0 0\n"
 
-#ifdef MECAB_USE_UTF8_ONLY
-#define MECAB_DEFAULT_CHARSET "UTF-8"
+#ifdef MECAB_KO_USE_UTF8_ONLY
+#define MECAB_KO_DEFAULT_CHARSET "UTF-8"
 #endif
 
-#ifndef MECAB_DEFAULT_CHARSET
+#ifndef MECAB_KO_DEFAULT_CHARSET
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#define MECAB_DEFAULT_CHARSET "SHIFT-JIS"
+#define MECAB_KO_DEFAULT_CHARSET "SHIFT-JIS"
 #else
-#define MECAB_DEFAULT_CHARSET "EUC-JP"
+#define MECAB_KO_DEFAULT_CHARSET "EUC-JP"
 #endif
 #endif
 
@@ -82,12 +82,12 @@
 #endif
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#define WPATH(path) (MeCab::Utf8ToWide(path).c_str())
+#define WPATH(path) (MeCabKo::Utf8ToWide(path).c_str())
 #else
 #define WPATH(path) (path)
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 class die {
  public:
   die() {}
@@ -118,7 +118,7 @@ class wlog {
  private:
   whatlog *what_;
 };
-}  // MeCab
+}  // MeCabKo
 
 #define WHAT what_.stream_
 
@@ -131,4 +131,4 @@ class wlog {
 (condition) ? 0 : die() & std::cerr << __FILE__ << \
 "(" << __LINE__ << ") [" << #condition << "] "
 
-#endif  // MECAB_COMMON_H_
+#endif  // MECAB_KO_COMMON_H_

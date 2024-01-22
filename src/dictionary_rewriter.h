@@ -3,17 +3,17 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_DICTIONARY_REWRITER_H
-#define MECAB_DICTIONARY_REWRITER_H
+#ifndef MECAB_KO_DICTIONARY_REWRITER_H
+#define MECAB_KO_DICTIONARY_REWRITER_H
 
 #include <vector>
 #include <string>
 #include <map>
 #include "common.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "freelist.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Iconv;
 

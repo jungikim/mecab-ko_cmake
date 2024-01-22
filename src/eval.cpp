@@ -9,13 +9,13 @@
 #include <map>
 #include <vector>
 #include "common.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "param.h"
 #include "stream_wrapper.h"
 #include "scoped_ptr.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Eval {
  private:
@@ -87,7 +87,7 @@ class Eval {
 
  public:
   static bool eval(int argc, char **argv) {
-    static const MeCab::Option long_options[] = {
+    static const MeCabKo::Option long_options[] = {
       { "level",  'l',  "0 -1",    "STR",    "set level of evaluations" },
       { "output", 'o',  0,         "FILE",   "set the output file name" },
       { "version",  'v',  0,   0,    "show the version and exit"   },
@@ -95,7 +95,7 @@ class Eval {
       { 0, 0, 0, 0 }
     };
 
-    MeCab::Param param;
+    MeCabKo::Param param;
     param.open(argc, argv, long_options);
 
     if (!param.open(argc, argv, long_options)) {
@@ -115,7 +115,7 @@ class Eval {
 
     std::string output = param.get<std::string>("output");
     if (output.empty()) output = "-";
-    MeCab::ostream_wrapper ofs(output.c_str());
+    MeCabKo::ostream_wrapper ofs(output.c_str());
     CHECK_DIE(*ofs) << "no such file or directory: " << output;
 
     const std::string system = files[0];
@@ -204,14 +204,14 @@ class Eval {
 class TestSentenceGenerator {
  public:
   static int run(int argc, char **argv) {
-    static const MeCab::Option long_options[] = {
+    static const MeCabKo::Option long_options[] = {
       { "output",   'o',  0,   "FILE", "set the output filename" },
       { "version",  'v',  0,   0,    "show the version and exit"   },
       { "help",  'h',  0,   0,    "show this help and exit."   },
       { 0, 0, 0, 0 }
     };
 
-    MeCab::Param param;
+    MeCabKo::Param param;
     param.open(argc, argv, long_options);
 
     if (!param.open(argc, argv, long_options)) {
@@ -232,14 +232,14 @@ class TestSentenceGenerator {
 
     std::string output = param.get<std::string>("output");
     if (output.empty()) output = "-";
-    MeCab::ostream_wrapper ofs(output.c_str());
+    MeCabKo::ostream_wrapper ofs(output.c_str());
     CHECK_DIE(*ofs) << "permission denied: " << output;
 
     scoped_fixed_array<char, BUF_SIZE> buf;
     char *col[2];
     std::string str;
     for (size_t i = 0; i < files.size(); ++i) {
-      MeCab::istream_wrapper ifs(files[i].c_str());
+      MeCabKo::istream_wrapper ifs(files[i].c_str());
       CHECK_DIE(*ifs) << "no such file or directory: " << files[i];
       while (ifs->getline(buf.get(), buf.size())) {
         const size_t n = tokenize(buf.get(), "\t ", col, 2);
@@ -259,10 +259,10 @@ class TestSentenceGenerator {
 }
 
 // exports
-int mecab_system_eval(int argc, char **argv) {
-  return MeCab::Eval::eval(argc, argv);
+int mecab_ko_system_eval(int argc, char **argv) {
+  return MeCabKo::Eval::eval(argc, argv);
 }
 
-int mecab_test_gen(int argc, char **argv) {
-  return MeCab::TestSentenceGenerator::run(argc, argv);
+int mecab_ko_test_gen(int argc, char **argv) {
+  return MeCabKo::TestSentenceGenerator::run(argc, argv);
 }

@@ -3,13 +3,13 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_SCOPED_PTR_H
-#define MECAB_SCOPED_PTR_H
+#ifndef MECAB_KO_SCOPED_PTR_H
+#define MECAB_KO_SCOPED_PTR_H
 
 #include <cstring>
 #include <string>
 
-namespace MeCab {
+namespace MeCabKo {
 
 template<class T> class scoped_ptr {
  private:

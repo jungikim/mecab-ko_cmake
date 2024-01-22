@@ -3,14 +3,14 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_VITERBI_H_
-#define MECAB_VITERBI_H_
+#ifndef MECAB_KO_VITERBI_H_
+#define MECAB_KO_VITERBI_H_
 
 #include <vector>
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "thread.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Lattice;
 class Param;
@@ -50,4 +50,4 @@ class Viterbi {
   whatlog               what_;
 };
 }
-#endif  // MECAB_VITERBI_H_
+#endif  // MECAB_KO_VITERBI_H_

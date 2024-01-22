@@ -19,7 +19,7 @@
 #include "utils.h"
 #include "writer.h"
 
-namespace MeCab {
+namespace MeCabKo {
 namespace {
 
 const unsigned int DictionaryMagicID = 0xef718f77u;
@@ -42,7 +42,7 @@ int calcCost(const std::string &w, const std::string &feature,
   LearnerPath path;
   LearnerNode rnode;
   LearnerNode lnode;
-  rnode.stat  = lnode.stat = MECAB_NOR_NODE;
+  rnode.stat  = lnode.stat = MECAB_KO_NOR_NODE;
   rnode.rpath = &path;
   lnode.lpath = &path;
   path.lnode  = &lnode;
@@ -300,7 +300,7 @@ bool Dictionary::compile(const Param &param,
     std::ifstream ifs(WPATH(dics[i].c_str()));
     std::istream *is = &ifs;
     if (!ifs) {
-      if (type == MECAB_UNK_DIC) {
+      if (type == MECAB_KO_UNK_DIC) {
         std::cerr << dics[i]
                   << " is not found. minimum setting is used." << std::endl;
         is = &iss;
@@ -327,7 +327,7 @@ bool Dictionary::compile(const Param &param,
       const int pid = posid->id(feature.c_str());
 
       if (cost == INT_MAX) {
-        CHECK_DIE(type == MECAB_USR_DIC)
+        CHECK_DIE(type == MECAB_KO_USR_DIC)
             << "cost field should not be empty in sys/unk dic.";
         if (!rewrite.get()) {
           rewrite.reset(new DictionaryRewriter);
@@ -382,7 +382,7 @@ bool Dictionary::compile(const Param &param,
         continue;
       }
 
-      if (type != MECAB_UNK_DIC && !iconv.convert(&w)) {
+      if (type != MECAB_KO_UNK_DIC && !iconv.convert(&w)) {
         std::cerr << "iconv conversion failed. skip this entry"
                   << std::endl;
         continue;
@@ -394,7 +394,7 @@ bool Dictionary::compile(const Param &param,
         node.length  = w.size();
         node.rlength = w.size();
         node.posid   = pid;
-        node.stat    = MECAB_NOR_NODE;
+        node.stat    = MECAB_KO_NOR_NODE;
         lattice->set_sentence(w.c_str());
         CHECK_DIE(os.get());
         CHECK_DIE(writer.get());

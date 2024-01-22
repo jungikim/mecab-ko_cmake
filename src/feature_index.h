@@ -3,12 +3,12 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_FEATUREINDEX_H_
-#define MECAB_FEATUREINDEX_H_
+#ifndef MECAB_KO_FEATUREINDEX_H_
+#define MECAB_KO_FEATUREINDEX_H_
 
 #include <map>
 #include <vector>
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "mmap.h"
 #include "darts.h"
 #include "freelist.h"
@@ -17,7 +17,7 @@
 #include "string_buffer.h"
 #include "dictionary_rewriter.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Param;
 

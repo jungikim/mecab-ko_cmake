@@ -13,7 +13,7 @@
 #include "utils.h"
 #include "viterbi.h"
 
-namespace MeCab {
+namespace MeCabKo {
 namespace {
 
 void inline read_node_info(const Dictionary &dic,
@@ -82,14 +82,14 @@ N *Tokenizer<N, P>::getBOSNode(Allocator<N, P> *allocator) const {
   bos_node->surface = const_cast<const char *>(BOS_KEY);  // dummy
   bos_node->feature = bos_feature_.get();
   bos_node->isbest = 1;
-  bos_node->stat = MECAB_BOS_NODE;
+  bos_node->stat = MECAB_KO_BOS_NODE;
   return bos_node;
 }
 
 template <typename N, typename P>
 N *Tokenizer<N, P>::getEOSNode(Allocator<N, P> *allocator) const {
   N *eos_node = getBOSNode(allocator);  // same
-  eos_node->stat = MECAB_EOS_NODE;
+  eos_node->stat = MECAB_KO_EOS_NODE;
   return eos_node;
 }
 
@@ -210,7 +210,7 @@ inline bool partial_match(const char *f1, const char *f2) {
 template <typename N>
 bool is_valid_node(const Lattice *lattice,  N *node) {
   const size_t end_pos = node->surface - lattice->sentence() + node->length;
-  if (lattice->boundary_constraint(end_pos) == MECAB_INSIDE_TOKEN) {
+  if (lattice->boundary_constraint(end_pos) == MECAB_KO_INSIDE_TOKEN) {
     return false;
   }
   const size_t begin_pos =
@@ -219,8 +219,8 @@ bool is_valid_node(const Lattice *lattice,  N *node) {
   if (!feature) {
     return true;
   }
-  if (lattice->boundary_constraint(begin_pos) == MECAB_TOKEN_BOUNDARY &&
-      lattice->boundary_constraint(end_pos) == MECAB_TOKEN_BOUNDARY &&
+  if (lattice->boundary_constraint(begin_pos) == MECAB_KO_TOKEN_BOUNDARY &&
+      lattice->boundary_constraint(end_pos) == MECAB_KO_TOKEN_BOUNDARY &&
       partial_match(feature, node->feature)) {
     return true;
   }
@@ -238,7 +238,7 @@ bool is_valid_node(const Lattice *lattice,  N *node) {
       new_node->surface = begin2;                                        \
       new_node->length = begin3 - begin2;                                \
       new_node->rlength = begin3 - begin;                                \
-      new_node->stat = MECAB_UNK_NODE;                                   \
+      new_node->stat = MECAB_KO_UNK_NODE;                                   \
       new_node->bnext = result_node;                                     \
       if (unk_feature_.get()) new_node->feature = unk_feature_.get();    \
       if (isPartial && !is_valid_node(lattice, new_node)) { continue; }  \
@@ -258,7 +258,7 @@ N *Tokenizer<N, P>::lookup(const char *begin, const char *end,
   if (isPartial) {
     const size_t begin_pos = begin - lattice->sentence();
     for (size_t n = begin_pos + 1; n < lattice->size(); ++n) {
-      if (lattice->boundary_constraint(n) == MECAB_TOKEN_BOUNDARY) {
+      if (lattice->boundary_constraint(n) == MECAB_KO_TOKEN_BOUNDARY) {
         end = lattice->sentence() + n;
         break;
       }
@@ -286,7 +286,7 @@ N *Tokenizer<N, P>::lookup(const char *begin, const char *end,
         new_node->length = daresults[i].length;
         new_node->rlength = begin2 - begin + new_node->length;
         new_node->surface = begin2;
-        new_node->stat = MECAB_NOR_NODE;
+        new_node->stat = MECAB_KO_NOR_NODE;
         new_node->char_type = cinfo.default_type;
         if (isPartial && !is_valid_node(lattice, new_node)) {
           continue;
@@ -349,7 +349,7 @@ N *Tokenizer<N, P>::lookup(const char *begin, const char *end,
       begin3 += mblen;
       if (begin3 > end ||
           lattice->boundary_constraint(begin3 - lattice->sentence())
-          != MECAB_INSIDE_TOKEN) {
+          != MECAB_KO_INSIDE_TOKEN) {
         break;
       }
     }
@@ -361,7 +361,7 @@ N *Tokenizer<N, P>::lookup(const char *begin, const char *end,
       new_node->surface = begin2;
       new_node->length = begin3 - begin2;
       new_node->rlength = begin3 - begin;
-      new_node->stat = MECAB_UNK_NODE;
+      new_node->stat = MECAB_KO_UNK_NODE;
       new_node->bnext = result_node;
       new_node->feature =
           lattice->feature_constraint(begin - lattice->sentence());

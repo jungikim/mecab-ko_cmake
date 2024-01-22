@@ -4,10 +4,10 @@
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
 #include <queue>
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "nbest_generator.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 bool NBestGenerator::set(Lattice *lattice) {
   freelist_.free();
@@ -28,7 +28,7 @@ bool NBestGenerator::next() {
     agenda_.pop();
     Node *rnode = top->node;
 
-    if (rnode->stat == MECAB_BOS_NODE) {  // BOS
+    if (rnode->stat == MECAB_KO_BOS_NODE) {  // BOS
       for (QueueElement *n = top; n->next; n = n->next) {
         n->node->next = n->next->node;   // change next & prev
         n->next->node->prev = n->node;

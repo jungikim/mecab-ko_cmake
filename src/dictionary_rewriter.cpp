@@ -17,7 +17,7 @@
 
 namespace {
 
-using namespace MeCab;
+using namespace MeCabKo;
 
 void append_rewrite_rule(RewriteRules *r, char* str) {
   char *col[3];
@@ -56,7 +56,7 @@ bool match_rewrite_pattern(const char *pat,
 }
 }
 
-namespace MeCab {
+namespace MeCabKo {
 
 bool RewritePattern::set_pattern(const char *src,
                                  const char *dst) {

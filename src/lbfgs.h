@@ -3,13 +3,13 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_LBFGS_H_
-#define MECAB_LBFGS_H_
+#ifndef MECAB_KO_LBFGS_H_
+#define MECAB_KO_LBFGS_H_
 
 #include <vector>
 #include <iostream>
 
-namespace MeCab {
+namespace MeCabKo {
 
 class LBFGS {
  public:

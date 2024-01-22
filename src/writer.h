@@ -3,17 +3,17 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_WRITER_H_
-#define MECAB_WRITER_H_
+#ifndef MECAB_KO_WRITER_H_
+#define MECAB_KO_WRITER_H_
 
 #include <string>
 #include "common.h"
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "utils.h"
 #include "scoped_ptr.h"
 #include "string_buffer.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Param;
 

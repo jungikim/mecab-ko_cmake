@@ -3,15 +3,15 @@
 //
 //  Copyright(C) 2001-2011 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_DICTIONARY_H_
-#define MECAB_DICTIONARY_H_
+#ifndef MECAB_KO_DICTIONARY_H_
+#define MECAB_KO_DICTIONARY_H_
 
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "mmap.h"
 #include "darts.h"
 #include "char_property.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class Param;
 
@@ -96,4 +96,4 @@ class Dictionary {
   Darts::DoubleArray  da_;
 };
 }
-#endif  // MECAB_DICTIONARY_H_
+#endif  // MECAB_KO_DICTIONARY_H_

@@ -230,7 +230,7 @@ void mcstep(double *stx, double *fx, double *dx,
 }
 }
 
-namespace MeCab {
+namespace MeCabKo {
 
 class LBFGS::Mcsrch {
  private:

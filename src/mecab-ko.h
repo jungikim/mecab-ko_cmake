@@ -4,15 +4,15 @@
   Copyright(C) 2001-2011 Taku Kudo <taku@chasen.org>
   Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
 */
-#ifndef MECAB_MECAB_H_
-#define MECAB_MECAB_H_
+#ifndef MECAB_KO_MECAB_KO_H_
+#define MECAB_KO_MECAB_KO_H_
 
 /* C/C++ common data structures  */
 
 /**
  * DictionaryInfo structure
  */
-struct mecab_dictionary_info_t {
+struct mecab_ko_dictionary_info_t {
   /**
    * filename of dictionary
    * On Windows, filename is stored in UTF-8 encoding
@@ -31,7 +31,7 @@ struct mecab_dictionary_info_t {
 
   /**
    * dictionary type
-   * this value should be MECAB_USR_DIC, MECAB_SYS_DIC, or MECAB_UNK_DIC.
+   * this value should be MECAB_KO_USR_DIC, MECAB_KO_SYS_DIC, or MECAB_KO_UNK_DIC.
    */
   int                             type;
 
@@ -53,33 +53,33 @@ struct mecab_dictionary_info_t {
   /**
    * pointer to the next dictionary info.
    */
-  struct mecab_dictionary_info_t *next;
+  struct mecab_ko_dictionary_info_t *next;
 };
 
 /**
  * Path structure
  */
-struct mecab_path_t {
+struct mecab_ko_path_t {
   /**
    * pointer to the right node
    */
-  struct mecab_node_t* rnode;
+  struct mecab_ko_node_t* rnode;
 
   /**
    * pointer to the next right path
    */
-  struct mecab_path_t* rnext;
+  struct mecab_ko_path_t* rnext;
 
   /**
    * pointer to the left node
    */
-  struct mecab_node_t* lnode;
+  struct mecab_ko_node_t* lnode;
 
   /**
    * pointer to the next left path
    */
 
-  struct mecab_path_t* lnext;
+  struct mecab_ko_path_t* lnext;
 
   /**
    * local cost
@@ -95,38 +95,38 @@ struct mecab_path_t {
 /**
  * Node structure
  */
-struct mecab_node_t {
+struct mecab_ko_node_t {
   /**
    * pointer to the previous node.
    */
-  struct mecab_node_t  *prev;
+  struct mecab_ko_node_t  *prev;
 
   /**
    * pointer to the next node.
    */
-  struct mecab_node_t  *next;
+  struct mecab_ko_node_t  *next;
 
   /**
    * pointer to the node which ends at the same position.
    */
-  struct mecab_node_t  *enext;
+  struct mecab_ko_node_t  *enext;
 
   /**
    * pointer to the node which starts at the same position.
    */
-  struct mecab_node_t  *bnext;
+  struct mecab_ko_node_t  *bnext;
 
   /**
    * pointer to the right path.
-   * this value is NULL if MECAB_ONE_BEST mode.
+   * this value is NULL if MECAB_KO_ONE_BEST mode.
    */
-  struct mecab_path_t  *rpath;
+  struct mecab_ko_path_t  *rpath;
 
   /**
    * pointer to the right path.
-   * this value is NULL if MECAB_ONE_BEST mode.
+   * this value is NULL if MECAB_KO_ONE_BEST mode.
    */
-  struct mecab_path_t  *lpath;
+  struct mecab_ko_path_t  *lpath;
 
   /**
    * surface string.
@@ -177,7 +177,7 @@ struct mecab_node_t {
 
   /**
    * status of this model.
-   * This value is MECAB_NOR_NODE, MECAB_UNK_NODE, MECAB_BOS_NODE, MECAB_EOS_NODE, or MECAB_EON_NODE.
+   * This value is MECAB_KO_NOR_NODE, MECAB_KO_UNK_NODE, MECAB_KO_BOS_NODE, MECAB_KO_EOS_NODE, or MECAB_KO_EON_NODE.
    */
   unsigned char         stat;
 
@@ -188,19 +188,19 @@ struct mecab_node_t {
 
   /**
    * forward accumulative log summation.
-   * This value is only available when MECAB_MARGINAL_PROB is passed.
+   * This value is only available when MECAB_KO_MARGINAL_PROB is passed.
    */
   float                 alpha;
 
   /**
    * backward accumulative log summation.
-   * This value is only available when MECAB_MARGINAL_PROB is passed.
+   * This value is only available when MECAB_KO_MARGINAL_PROB is passed.
    */
   float                 beta;
 
   /**
    * marginal probability.
-   * This value is only available when MECAB_MARGINAL_PROB is passed.
+   * This value is only available when MECAB_KO_MARGINAL_PROB is passed.
    */
   float                 prob;
 
@@ -216,112 +216,112 @@ struct mecab_node_t {
 };
 
 /**
- * Parameters for MeCab::Node::stat
+ * Parameters for MeCabKo::Node::stat
  */
 enum {
   /**
    * Normal node defined in the dictionary.
    */
-  MECAB_NOR_NODE = 0,
+  MECAB_KO_NOR_NODE = 0,
   /**
    * Unknown node not defined in the dictionary.
    */
-  MECAB_UNK_NODE = 1,
+  MECAB_KO_UNK_NODE = 1,
   /**
    * Virtual node representing a beginning of the sentence.
    */
-  MECAB_BOS_NODE = 2,
+  MECAB_KO_BOS_NODE = 2,
   /**
    * Virtual node representing a end of the sentence.
    */
-  MECAB_EOS_NODE = 3,
+  MECAB_KO_EOS_NODE = 3,
 
   /**
    * Virtual node representing a end of the N-best enumeration.
    */
-  MECAB_EON_NODE = 4
+  MECAB_KO_EON_NODE = 4
 };
 
 /**
- * Parameters for MeCab::DictionaryInfo::type
+ * Parameters for MeCabKo::DictionaryInfo::type
  */
 enum {
   /**
    * This is a system dictionary.
    */
-  MECAB_SYS_DIC = 0,
+  MECAB_KO_SYS_DIC = 0,
 
   /**
    * This is a user dictionary.
    */
-  MECAB_USR_DIC = 1,
+  MECAB_KO_USR_DIC = 1,
 
   /**
    * This is a unknown word dictionary.
    */
-  MECAB_UNK_DIC = 2
+  MECAB_KO_UNK_DIC = 2
 };
 
 /**
- * Parameters for MeCab::Lattice::request_type
+ * Parameters for MeCabKo::Lattice::request_type
  */
 enum {
   /**
    * One best result is obtained (default mode)
    */
-  MECAB_ONE_BEST          = 1,
+  MECAB_KO_ONE_BEST          = 1,
   /**
    * Set this flag if you want to obtain N best results.
    */
-  MECAB_NBEST             = 2,
+  MECAB_KO_NBEST             = 2,
   /**
    * Set this flag if you want to enable a partial parsing mode.
    * When this flag is set, the input |sentence| needs to be written
    * in partial parsing format.
    */
-  MECAB_PARTIAL           = 4,
+  MECAB_KO_PARTIAL           = 4,
   /**
    * Set this flag if you want to obtain marginal probabilities.
-   * Marginal probability is set in MeCab::Node::prob.
+   * Marginal probability is set in MeCabKo::Node::prob.
    * The parsing speed will get 3-5 times slower than the default mode.
    */
-  MECAB_MARGINAL_PROB     = 8,
+  MECAB_KO_MARGINAL_PROB     = 8,
   /**
    * Set this flag if you want to obtain alternative results.
    * Not implemented.
    */
-  MECAB_ALTERNATIVE       = 16,
+  MECAB_KO_ALTERNATIVE       = 16,
   /**
    * When this flag is set, the result linked-list (Node::next/prev)
    * traverses all nodes in the lattice.
    */
-  MECAB_ALL_MORPHS        = 32,
+  MECAB_KO_ALL_MORPHS        = 32,
 
   /**
    * When this flag is set, tagger internally copies the body of passed
    * sentence into internal buffer.
    */
-  MECAB_ALLOCATE_SENTENCE = 64
+  MECAB_KO_ALLOCATE_SENTENCE = 64
 };
 
 /**
- * Parameters for MeCab::Lattice::boundary_constraint_type
+ * Parameters for MeCabKo::Lattice::boundary_constraint_type
  */
 enum {
   /**
    * The token boundary is not specified.
    */
-  MECAB_ANY_BOUNDARY = 0,
+  MECAB_KO_ANY_BOUNDARY = 0,
 
   /**
    * The position is a strong token boundary.
    */
-  MECAB_TOKEN_BOUNDARY = 1,
+  MECAB_KO_TOKEN_BOUNDARY = 1,
 
   /**
    * The position is not a token boundary.
    */
-  MECAB_INSIDE_TOKEN = 2
+  MECAB_KO_INSIDE_TOKEN = 2
 };
 
 /* C interface  */
@@ -338,428 +338,428 @@ extern "C" {
 #ifdef _WIN32
 #include <windows.h>
 #  ifdef DLL_EXPORT
-#    define MECAB_DLL_EXTERN  __declspec(dllexport)
-#    define MECAB_DLL_CLASS_EXTERN  __declspec(dllexport)
+#    define MECAB_KO_DLL_EXTERN  __declspec(dllexport)
+#    define MECAB_KO_DLL_CLASS_EXTERN  __declspec(dllexport)
 #  else
-#    define MECAB_DLL_EXTERN  __declspec(dllimport)
+#    define MECAB_KO_DLL_EXTERN  __declspec(dllimport)
 #  endif
 #endif
 
-#ifndef MECAB_DLL_EXTERN
-#  define MECAB_DLL_EXTERN extern
+#ifndef MECAB_KO_DLL_EXTERN
+#  define MECAB_KO_DLL_EXTERN extern
 #endif
 
-#ifndef MECAB_DLL_CLASS_EXTERN
-#  define MECAB_DLL_CLASS_EXTERN
+#ifndef MECAB_KO_DLL_CLASS_EXTERN
+#  define MECAB_KO_DLL_CLASS_EXTERN
 #endif
 
-  typedef struct mecab_t                 mecab_t;
-  typedef struct mecab_model_t           mecab_model_t;
-  typedef struct mecab_lattice_t         mecab_lattice_t;
-  typedef struct mecab_dictionary_info_t mecab_dictionary_info_t;
-  typedef struct mecab_node_t            mecab_node_t;
-  typedef struct mecab_path_t            mecab_path_t;
+  typedef struct mecab_ko_t                 mecab_ko_t;
+  typedef struct mecab_ko_model_t           mecab_ko_model_t;
+  typedef struct mecab_ko_lattice_t         mecab_ko_lattice_t;
+  typedef struct mecab_ko_dictionary_info_t mecab_ko_dictionary_info_t;
+  typedef struct mecab_ko_node_t            mecab_ko_node_t;
+  typedef struct mecab_ko_path_t            mecab_ko_path_t;
 
 #ifndef SWIG
   /* C interface */
 
   /* old mecab interface */
   /**
-   * C wrapper of MeCab::Tagger::create(argc, argv)
+   * C wrapper of MeCabKo::Tagger::create(argc, argv)
    */
-  MECAB_DLL_EXTERN mecab_t*      mecab_new(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN mecab_ko_t*      mecab_ko_new(int argc, char **argv);
 
   /**
-   * C wrapper of MeCab::Tagger::create(arg)
+   * C wrapper of MeCabKo::Tagger::create(arg)
    */
-  MECAB_DLL_EXTERN mecab_t*      mecab_new2(const char *arg);
+  MECAB_KO_DLL_EXTERN mecab_ko_t*      mecab_ko_new2(const char *arg);
 
   /**
-   * C wrapper of MeCab::Tagger::version()
+   * C wrapper of MeCabKo::Tagger::version()
    */
-  MECAB_DLL_EXTERN const char*   mecab_version();
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_version();
 
   /**
-   * C wrapper of MeCab::getLastError()
+   * C wrapper of MeCabKo::getLastError()
    */
-  MECAB_DLL_EXTERN const char*   mecab_strerror(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_strerror(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::deleteTagger(tagger)
+   * C wrapper of MeCabKo::deleteTagger(tagger)
    */
-  MECAB_DLL_EXTERN void          mecab_destroy(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN void          mecab_ko_destroy(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::Tagger:set_partial()
+   * C wrapper of MeCabKo::Tagger:set_partial()
    */
-  MECAB_DLL_EXTERN int           mecab_get_partial(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_get_partial(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::Tagger::partial()
+   * C wrapper of MeCabKo::Tagger::partial()
    */
-  MECAB_DLL_EXTERN void          mecab_set_partial(mecab_t *mecab, int partial);
+  MECAB_KO_DLL_EXTERN void          mecab_ko_set_partial(mecab_ko_t *mecab, int partial);
 
   /**
-   * C wrapper of MeCab::Tagger::theta()
+   * C wrapper of MeCabKo::Tagger::theta()
    */
-  MECAB_DLL_EXTERN float         mecab_get_theta(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN float         mecab_ko_get_theta(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of  MeCab::Tagger::set_theta()
+   * C wrapper of  MeCabKo::Tagger::set_theta()
    */
-  MECAB_DLL_EXTERN void          mecab_set_theta(mecab_t *mecab, float theta);
+  MECAB_KO_DLL_EXTERN void          mecab_ko_set_theta(mecab_ko_t *mecab, float theta);
 
   /**
-   * C wrapper of MeCab::Tagger::lattice_level()
+   * C wrapper of MeCabKo::Tagger::lattice_level()
    */
-  MECAB_DLL_EXTERN int           mecab_get_lattice_level(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_get_lattice_level(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::Tagger::set_lattice_level()
+   * C wrapper of MeCabKo::Tagger::set_lattice_level()
    */
-  MECAB_DLL_EXTERN void          mecab_set_lattice_level(mecab_t *mecab, int level);
+  MECAB_KO_DLL_EXTERN void          mecab_ko_set_lattice_level(mecab_ko_t *mecab, int level);
 
   /**
-   * C wrapper of MeCab::Tagger::all_morphs()
+   * C wrapper of MeCabKo::Tagger::all_morphs()
    */
-  MECAB_DLL_EXTERN int           mecab_get_all_morphs(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_get_all_morphs(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::Tagger::set_all_moprhs()
+   * C wrapper of MeCabKo::Tagger::set_all_moprhs()
    */
-  MECAB_DLL_EXTERN void          mecab_set_all_morphs(mecab_t *mecab, int all_morphs);
+  MECAB_KO_DLL_EXTERN void          mecab_ko_set_all_morphs(mecab_ko_t *mecab, int all_morphs);
 
   /**
-   * C wrapper of MeCab::Tagger::parse(MeCab::Lattice *lattice)
+   * C wrapper of MeCabKo::Tagger::parse(MeCabKo::Lattice *lattice)
    */
-  MECAB_DLL_EXTERN int           mecab_parse_lattice(mecab_t *mecab, mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_parse_lattice(mecab_ko_t *mecab, mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Tagger::parse(const char *str)
+   * C wrapper of MeCabKo::Tagger::parse(const char *str)
    */
-  MECAB_DLL_EXTERN const char*   mecab_sparse_tostr(mecab_t *mecab, const char *str);
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_sparse_tostr(mecab_ko_t *mecab, const char *str);
 
   /**
-   * C wrapper of MeCab::Tagger::parse(const char *str, size_t len)
+   * C wrapper of MeCabKo::Tagger::parse(const char *str, size_t len)
    */
-  MECAB_DLL_EXTERN const char*   mecab_sparse_tostr2(mecab_t *mecab, const char *str, size_t len);
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_sparse_tostr2(mecab_ko_t *mecab, const char *str, size_t len);
 
   /**
-   * C wrapper of MeCab::Tagger::parse(const char *str, char *ostr, size_t olen)
+   * C wrapper of MeCabKo::Tagger::parse(const char *str, char *ostr, size_t olen)
    */
-  MECAB_DLL_EXTERN char*         mecab_sparse_tostr3(mecab_t *mecab, const char *str, size_t len,
+  MECAB_KO_DLL_EXTERN char*         mecab_ko_sparse_tostr3(mecab_ko_t *mecab, const char *str, size_t len,
                                                      char *ostr, size_t olen);
 
   /**
-   * C wrapper of MeCab::Tagger::parseToNode(const char *str)
+   * C wrapper of MeCabKo::Tagger::parseToNode(const char *str)
    */
-  MECAB_DLL_EXTERN const mecab_node_t* mecab_sparse_tonode(mecab_t *mecab, const char*);
+  MECAB_KO_DLL_EXTERN const mecab_ko_node_t* mecab_ko_sparse_tonode(mecab_ko_t *mecab, const char*);
 
   /**
-   * C wrapper of MeCab::Tagger::parseToNode(const char *str, size_t len)
+   * C wrapper of MeCabKo::Tagger::parseToNode(const char *str, size_t len)
    */
-  MECAB_DLL_EXTERN const mecab_node_t* mecab_sparse_tonode2(mecab_t *mecab, const char*, size_t);
+  MECAB_KO_DLL_EXTERN const mecab_ko_node_t* mecab_ko_sparse_tonode2(mecab_ko_t *mecab, const char*, size_t);
 
   /**
-   * C wrapper of MeCab::Tagger::parseNBest(size_t N, const char *str)
+   * C wrapper of MeCabKo::Tagger::parseNBest(size_t N, const char *str)
    */
-  MECAB_DLL_EXTERN const char*   mecab_nbest_sparse_tostr(mecab_t *mecab, size_t N, const char *str);
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_nbest_sparse_tostr(mecab_ko_t *mecab, size_t N, const char *str);
 
   /**
-   * C wrapper of MeCab::Tagger::parseNBest(size_t N, const char *str, size_t len)
+   * C wrapper of MeCabKo::Tagger::parseNBest(size_t N, const char *str, size_t len)
    */
-  MECAB_DLL_EXTERN const char*   mecab_nbest_sparse_tostr2(mecab_t *mecab, size_t N,
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_nbest_sparse_tostr2(mecab_ko_t *mecab, size_t N,
                                                            const char *str, size_t len);
 
   /**
-   * C wrapper of MeCab::Tagger::parseNBest(size_t N, const char *str, char *ostr, size_t olen)
+   * C wrapper of MeCabKo::Tagger::parseNBest(size_t N, const char *str, char *ostr, size_t olen)
    */
-  MECAB_DLL_EXTERN char*         mecab_nbest_sparse_tostr3(mecab_t *mecab, size_t N,
+  MECAB_KO_DLL_EXTERN char*         mecab_ko_nbest_sparse_tostr3(mecab_ko_t *mecab, size_t N,
                                                            const char *str, size_t len,
                                                            char *ostr, size_t olen);
 
   /**
-   * C wrapper of MeCab::Tagger::parseNBestInit(const char *str)
+   * C wrapper of MeCabKo::Tagger::parseNBestInit(const char *str)
    */
-  MECAB_DLL_EXTERN int           mecab_nbest_init(mecab_t *mecab, const char *str);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_nbest_init(mecab_ko_t *mecab, const char *str);
 
   /**
-   * C wrapper of MeCab::Tagger::parseNBestInit(const char *str, size_t len)
+   * C wrapper of MeCabKo::Tagger::parseNBestInit(const char *str, size_t len)
    */
-  MECAB_DLL_EXTERN int           mecab_nbest_init2(mecab_t *mecab, const char *str, size_t len);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_nbest_init2(mecab_ko_t *mecab, const char *str, size_t len);
 
   /**
-   * C wrapper of MeCab::Tagger::next()
+   * C wrapper of MeCabKo::Tagger::next()
    */
-  MECAB_DLL_EXTERN const char*   mecab_nbest_next_tostr(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_nbest_next_tostr(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::Tagger::next(char *ostr, size_t olen)
+   * C wrapper of MeCabKo::Tagger::next(char *ostr, size_t olen)
    */
-  MECAB_DLL_EXTERN char*         mecab_nbest_next_tostr2(mecab_t *mecab, char *ostr, size_t olen);
+  MECAB_KO_DLL_EXTERN char*         mecab_ko_nbest_next_tostr2(mecab_ko_t *mecab, char *ostr, size_t olen);
 
   /**
-   * C wrapper of MeCab::Tagger::nextNode()
+   * C wrapper of MeCabKo::Tagger::nextNode()
    */
-  MECAB_DLL_EXTERN const mecab_node_t* mecab_nbest_next_tonode(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN const mecab_ko_node_t* mecab_ko_nbest_next_tonode(mecab_ko_t *mecab);
 
   /**
-   * C wrapper of MeCab::Tagger::formatNode(const Node *node)
+   * C wrapper of MeCabKo::Tagger::formatNode(const Node *node)
    */
-  MECAB_DLL_EXTERN const char*   mecab_format_node(mecab_t *mecab, const mecab_node_t *node);
+  MECAB_KO_DLL_EXTERN const char*   mecab_ko_format_node(mecab_ko_t *mecab, const mecab_ko_node_t *node);
 
   /**
-   * C wrapper of MeCab::Tagger::dictionary_info()
+   * C wrapper of MeCabKo::Tagger::dictionary_info()
    */
-  MECAB_DLL_EXTERN const mecab_dictionary_info_t* mecab_dictionary_info(mecab_t *mecab);
+  MECAB_KO_DLL_EXTERN const mecab_ko_dictionary_info_t* mecab_ko_dictionary_info(mecab_ko_t *mecab);
 
   /* lattice interface */
   /**
-   * C wrapper of MeCab::createLattice()
+   * C wrapper of MeCabKo::createLattice()
    */
-  MECAB_DLL_EXTERN mecab_lattice_t *mecab_lattice_new();
+  MECAB_KO_DLL_EXTERN mecab_ko_lattice_t *mecab_ko_lattice_new();
 
   /**
-   * C wrapper of MeCab::deleteLattice(lattice)
+   * C wrapper of MeCabKo::deleteLattice(lattice)
    */
-  MECAB_DLL_EXTERN void             mecab_lattice_destroy(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_destroy(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::clear()
+   * C wrapper of MeCabKo::Lattice::clear()
    */
-  MECAB_DLL_EXTERN void             mecab_lattice_clear(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_clear(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::is_available()
+   * C wrapper of MeCabKo::Lattice::is_available()
    */
 
-  MECAB_DLL_EXTERN int              mecab_lattice_is_available(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN int              mecab_ko_lattice_is_available(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::bos_node()
+   * C wrapper of MeCabKo::Lattice::bos_node()
    */
-  MECAB_DLL_EXTERN mecab_node_t    *mecab_lattice_get_bos_node(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t    *mecab_ko_lattice_get_bos_node(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::eos_node()
+   * C wrapper of MeCabKo::Lattice::eos_node()
    */
-  MECAB_DLL_EXTERN mecab_node_t    *mecab_lattice_get_eos_node(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t    *mecab_ko_lattice_get_eos_node(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::begin_nodes()
+   * C wrapper of MeCabKo::Lattice::begin_nodes()
    */
 
-  MECAB_DLL_EXTERN mecab_node_t   **mecab_lattice_get_all_begin_nodes(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t   **mecab_ko_lattice_get_all_begin_nodes(mecab_ko_lattice_t *lattice);
   /**
-   * C wrapper of MeCab::Lattice::end_nodes()
+   * C wrapper of MeCabKo::Lattice::end_nodes()
    */
-  MECAB_DLL_EXTERN mecab_node_t   **mecab_lattice_get_all_end_nodes(mecab_lattice_t *lattice);
-
-  /**
-   * C wrapper of MeCab::Lattice::begin_nodes(pos)
-   */
-  MECAB_DLL_EXTERN mecab_node_t    *mecab_lattice_get_begin_nodes(mecab_lattice_t *lattice, size_t pos);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t   **mecab_ko_lattice_get_all_end_nodes(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::end_nodes(pos)
+   * C wrapper of MeCabKo::Lattice::begin_nodes(pos)
    */
-  MECAB_DLL_EXTERN mecab_node_t    *mecab_lattice_get_end_nodes(mecab_lattice_t *lattice, size_t pos);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t    *mecab_ko_lattice_get_begin_nodes(mecab_ko_lattice_t *lattice, size_t pos);
 
   /**
-   * C wrapper of MeCab::Lattice::sentence()
+   * C wrapper of MeCabKo::Lattice::end_nodes(pos)
    */
-  MECAB_DLL_EXTERN const char      *mecab_lattice_get_sentence(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t    *mecab_ko_lattice_get_end_nodes(mecab_ko_lattice_t *lattice, size_t pos);
 
   /**
-   * C wrapper of MeCab::Lattice::set_sentence(sentence)
+   * C wrapper of MeCabKo::Lattice::sentence()
    */
-  MECAB_DLL_EXTERN void             mecab_lattice_set_sentence(mecab_lattice_t *lattice, const char *sentence);
+  MECAB_KO_DLL_EXTERN const char      *mecab_ko_lattice_get_sentence(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::set_sentence(sentence, len)
+   * C wrapper of MeCabKo::Lattice::set_sentence(sentence)
    */
-
-  MECAB_DLL_EXTERN void             mecab_lattice_set_sentence2(mecab_lattice_t *lattice, const char *sentence, size_t len);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_set_sentence(mecab_ko_lattice_t *lattice, const char *sentence);
 
   /**
-   * C wrapper of MeCab::Lattice::size()
+   * C wrapper of MeCabKo::Lattice::set_sentence(sentence, len)
    */
-  MECAB_DLL_EXTERN size_t           mecab_lattice_get_size(mecab_lattice_t *lattice);
+
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_set_sentence2(mecab_ko_lattice_t *lattice, const char *sentence, size_t len);
 
   /**
-   * C wrapper of MeCab::Lattice::Z()
+   * C wrapper of MeCabKo::Lattice::size()
    */
-  MECAB_DLL_EXTERN double           mecab_lattice_get_z(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN size_t           mecab_ko_lattice_get_size(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::set_Z()
+   * C wrapper of MeCabKo::Lattice::Z()
    */
-  MECAB_DLL_EXTERN void             mecab_lattice_set_z(mecab_lattice_t *lattice, double Z);
+  MECAB_KO_DLL_EXTERN double           mecab_ko_lattice_get_z(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::theta()
+   * C wrapper of MeCabKo::Lattice::set_Z()
    */
-  MECAB_DLL_EXTERN double           mecab_lattice_get_theta(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_set_z(mecab_ko_lattice_t *lattice, double Z);
 
   /**
-   * C wrapper of MeCab::Lattice::set_theta()
+   * C wrapper of MeCabKo::Lattice::theta()
    */
-
-  MECAB_DLL_EXTERN void             mecab_lattice_set_theta(mecab_lattice_t *lattice, double theta);
+  MECAB_KO_DLL_EXTERN double           mecab_ko_lattice_get_theta(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::next()
+   * C wrapper of MeCabKo::Lattice::set_theta()
    */
-  MECAB_DLL_EXTERN int              mecab_lattice_next(mecab_lattice_t *lattice);
+
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_set_theta(mecab_ko_lattice_t *lattice, double theta);
 
   /**
-   * C wrapper of MeCab::Lattice::request_type()
+   * C wrapper of MeCabKo::Lattice::next()
    */
-  MECAB_DLL_EXTERN int              mecab_lattice_get_request_type(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN int              mecab_ko_lattice_next(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::has_request_type()
+   * C wrapper of MeCabKo::Lattice::request_type()
    */
-  MECAB_DLL_EXTERN int              mecab_lattice_has_request_type(mecab_lattice_t *lattice, int request_type);
+  MECAB_KO_DLL_EXTERN int              mecab_ko_lattice_get_request_type(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::set_request_type()
+   * C wrapper of MeCabKo::Lattice::has_request_type()
    */
-  MECAB_DLL_EXTERN void             mecab_lattice_set_request_type(mecab_lattice_t *lattice, int request_type);
+  MECAB_KO_DLL_EXTERN int              mecab_ko_lattice_has_request_type(mecab_ko_lattice_t *lattice, int request_type);
 
   /**
-   * C wrapper of MeCab::Lattice::add_request_type()
+   * C wrapper of MeCabKo::Lattice::set_request_type()
    */
-
-  MECAB_DLL_EXTERN void             mecab_lattice_add_request_type(mecab_lattice_t *lattice, int request_type);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_set_request_type(mecab_ko_lattice_t *lattice, int request_type);
 
   /**
-   * C wrapper of MeCab::Lattice::remove_request_type()
+   * C wrapper of MeCabKo::Lattice::add_request_type()
    */
-  MECAB_DLL_EXTERN void             mecab_lattice_remove_request_type(mecab_lattice_t *lattice, int request_type);
+
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_add_request_type(mecab_ko_lattice_t *lattice, int request_type);
 
   /**
-   * C wrapper of MeCab::Lattice::newNode();
+   * C wrapper of MeCabKo::Lattice::remove_request_type()
    */
-  MECAB_DLL_EXTERN mecab_node_t    *mecab_lattice_new_node(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_lattice_remove_request_type(mecab_ko_lattice_t *lattice, int request_type);
 
   /**
-   * C wrapper of MeCab::Lattice::toString()
+   * C wrapper of MeCabKo::Lattice::newNode();
    */
-  MECAB_DLL_EXTERN const char      *mecab_lattice_tostr(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t    *mecab_ko_lattice_new_node(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::toString(buf, size)
+   * C wrapper of MeCabKo::Lattice::toString()
    */
-  MECAB_DLL_EXTERN const char      *mecab_lattice_tostr2(mecab_lattice_t *lattice, char *buf, size_t size);
+  MECAB_KO_DLL_EXTERN const char      *mecab_ko_lattice_tostr(mecab_ko_lattice_t *lattice);
 
   /**
-   * C wrapper of MeCab::Lattice::enumNBestAsString(N)
+   * C wrapper of MeCabKo::Lattice::toString(buf, size)
    */
-  MECAB_DLL_EXTERN const char      *mecab_lattice_nbest_tostr(mecab_lattice_t *lattice, size_t N);
+  MECAB_KO_DLL_EXTERN const char      *mecab_ko_lattice_tostr2(mecab_ko_lattice_t *lattice, char *buf, size_t size);
 
   /**
-   * C wrapper of MeCab::Lattice::enumNBestAsString(N, buf, size)
+   * C wrapper of MeCabKo::Lattice::enumNBestAsString(N)
    */
-
-  MECAB_DLL_EXTERN const char      *mecab_lattice_nbest_tostr2(mecab_lattice_t *lattice, size_t N, char *buf, size_t size);
+  MECAB_KO_DLL_EXTERN const char      *mecab_ko_lattice_nbest_tostr(mecab_ko_lattice_t *lattice, size_t N);
 
   /**
-   * C wrapper of MeCab::Lattice::has_constraint()
+   * C wrapper of MeCabKo::Lattice::enumNBestAsString(N, buf, size)
    */
-  MECAB_DLL_EXTERN int             mecab_lattice_has_constraint(mecab_lattice_t *lattice);
+
+  MECAB_KO_DLL_EXTERN const char      *mecab_ko_lattice_nbest_tostr2(mecab_ko_lattice_t *lattice, size_t N, char *buf, size_t size);
 
   /**
-   * C wrapper of MeCab::Lattice::boundary_constraint(pos)
+   * C wrapper of MeCabKo::Lattice::has_constraint()
    */
-  MECAB_DLL_EXTERN int             mecab_lattice_get_boundary_constraint(mecab_lattice_t *lattice, size_t pos);
+  MECAB_KO_DLL_EXTERN int             mecab_ko_lattice_has_constraint(mecab_ko_lattice_t *lattice);
+
+  /**
+   * C wrapper of MeCabKo::Lattice::boundary_constraint(pos)
+   */
+  MECAB_KO_DLL_EXTERN int             mecab_ko_lattice_get_boundary_constraint(mecab_ko_lattice_t *lattice, size_t pos);
 
 
   /**
-   * C wrapper of MeCab::Lattice::feature_constraint(pos)
+   * C wrapper of MeCabKo::Lattice::feature_constraint(pos)
    */
-  MECAB_DLL_EXTERN const char     *mecab_lattice_get_feature_constraint(mecab_lattice_t *lattice, size_t pos);
+  MECAB_KO_DLL_EXTERN const char     *mecab_ko_lattice_get_feature_constraint(mecab_ko_lattice_t *lattice, size_t pos);
 
   /**
-   * C wrapper of MeCab::Lattice::boundary_constraint(pos, type)
+   * C wrapper of MeCabKo::Lattice::boundary_constraint(pos, type)
    */
-  MECAB_DLL_EXTERN void            mecab_lattice_set_boundary_constraint(mecab_lattice_t *lattice, size_t pos, int boundary_type);
+  MECAB_KO_DLL_EXTERN void            mecab_ko_lattice_set_boundary_constraint(mecab_ko_lattice_t *lattice, size_t pos, int boundary_type);
 
   /**
-   * C wrapper of MeCab::Lattice::set_feature_constraint(begin_pos, end_pos, feature)
+   * C wrapper of MeCabKo::Lattice::set_feature_constraint(begin_pos, end_pos, feature)
    */
-  MECAB_DLL_EXTERN void            mecab_lattice_set_feature_constraint(mecab_lattice_t *lattice, size_t begin_pos, size_t end_pos, const char *feature);
+  MECAB_KO_DLL_EXTERN void            mecab_ko_lattice_set_feature_constraint(mecab_ko_lattice_t *lattice, size_t begin_pos, size_t end_pos, const char *feature);
 
   /**
-   * C wrapper of MeCab::Lattice::set_result(result);
+   * C wrapper of MeCabKo::Lattice::set_result(result);
    */
-  MECAB_DLL_EXTERN void            mecab_lattice_set_result(mecab_lattice_t *lattice, const char *result);
+  MECAB_KO_DLL_EXTERN void            mecab_ko_lattice_set_result(mecab_ko_lattice_t *lattice, const char *result);
 
   /**
-   * C wrapper of MeCab::Lattice::what()
+   * C wrapper of MeCabKo::Lattice::what()
    */
-  MECAB_DLL_EXTERN const char      *mecab_lattice_strerror(mecab_lattice_t *lattice);
+  MECAB_KO_DLL_EXTERN const char      *mecab_ko_lattice_strerror(mecab_ko_lattice_t *lattice);
 
 
   /* model interface */
   /**
-   * C wapper of MeCab::Model::create(argc, argv)
+   * C wapper of MeCabKo::Model::create(argc, argv)
    */
-  MECAB_DLL_EXTERN mecab_model_t   *mecab_model_new(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN mecab_ko_model_t   *mecab_ko_model_new(int argc, char **argv);
 
   /**
-   * C wapper of MeCab::Model::create(arg)
+   * C wapper of MeCabKo::Model::create(arg)
    */
-  MECAB_DLL_EXTERN mecab_model_t   *mecab_model_new2(const char *arg);
+  MECAB_KO_DLL_EXTERN mecab_ko_model_t   *mecab_ko_model_new2(const char *arg);
 
   /**
-   * C wapper of MeCab::deleteModel(model)
+   * C wapper of MeCabKo::deleteModel(model)
    */
 
-  MECAB_DLL_EXTERN void             mecab_model_destroy(mecab_model_t *model);
-
-  /**
-   * C wapper of MeCab::Model::createTagger()
-   */
-  MECAB_DLL_EXTERN mecab_t         *mecab_model_new_tagger(mecab_model_t *model);
+  MECAB_KO_DLL_EXTERN void             mecab_ko_model_destroy(mecab_ko_model_t *model);
 
   /**
-   * C wapper of MeCab::Model::createLattice()
+   * C wapper of MeCabKo::Model::createTagger()
    */
-  MECAB_DLL_EXTERN mecab_lattice_t *mecab_model_new_lattice(mecab_model_t *model);
+  MECAB_KO_DLL_EXTERN mecab_ko_t         *mecab_ko_model_new_tagger(mecab_ko_model_t *model);
 
   /**
-   * C wrapper of MeCab::Model::swap()
+   * C wapper of MeCabKo::Model::createLattice()
    */
-  MECAB_DLL_EXTERN int mecab_model_swap(mecab_model_t *model, mecab_model_t *new_model);
+  MECAB_KO_DLL_EXTERN mecab_ko_lattice_t *mecab_ko_model_new_lattice(mecab_ko_model_t *model);
 
   /**
-   * C wapper of MeCab::Model::dictionary_info()
+   * C wrapper of MeCabKo::Model::swap()
    */
-  MECAB_DLL_EXTERN const mecab_dictionary_info_t* mecab_model_dictionary_info(mecab_model_t *model);
+  MECAB_KO_DLL_EXTERN int mecab_ko_model_swap(mecab_ko_model_t *model, mecab_ko_model_t *new_model);
 
   /**
-   * C wrapper of MeCab::Model::transition_cost()
+   * C wapper of MeCabKo::Model::dictionary_info()
    */
-  MECAB_DLL_EXTERN int mecab_model_transition_cost(mecab_model_t *model,
+  MECAB_KO_DLL_EXTERN const mecab_ko_dictionary_info_t* mecab_ko_model_dictionary_info(mecab_ko_model_t *model);
+
+  /**
+   * C wrapper of MeCabKo::Model::transition_cost()
+   */
+  MECAB_KO_DLL_EXTERN int mecab_ko_model_transition_cost(mecab_ko_model_t *model,
                                                    unsigned short rcAttr,
                                                    unsigned short lcAttr);
 
   /**
-   * C wrapper of MeCab::Model::lookup()
+   * C wrapper of MeCabKo::Model::lookup()
    */
-  MECAB_DLL_EXTERN mecab_node_t *mecab_model_lookup(mecab_model_t *model,
+  MECAB_KO_DLL_EXTERN mecab_ko_node_t *mecab_ko_model_lookup(mecab_ko_model_t *model,
                                                     const char *begin,
                                                     const char *end,
-                                                    mecab_lattice_t *lattice);
+                                                    mecab_ko_lattice_t *lattice);
 
   /* static functions */
-  MECAB_DLL_EXTERN int           mecab_do(int argc, char **argv);
-  MECAB_DLL_EXTERN int           mecab_dict_index(int argc, char **argv);
-  MECAB_DLL_EXTERN int           mecab_dict_gen(int argc, char **argv);
-  MECAB_DLL_EXTERN int           mecab_cost_train(int argc, char **argv);
-  MECAB_DLL_EXTERN int           mecab_system_eval(int argc, char **argv);
-  MECAB_DLL_EXTERN int           mecab_test_gen(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_do(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_dict_index(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_dict_gen(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_cost_train(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_system_eval(int argc, char **argv);
+  MECAB_KO_DLL_EXTERN int           mecab_ko_test_gen(int argc, char **argv);
 #endif
 
 #ifdef __cplusplus
@@ -769,10 +769,10 @@ extern "C" {
 /* C++ interface */
 #ifdef __cplusplus
 
-namespace MeCab {
-typedef struct mecab_dictionary_info_t DictionaryInfo;
-typedef struct mecab_path_t            Path;
-typedef struct mecab_node_t            Node;
+namespace MeCabKo {
+typedef struct mecab_ko_dictionary_info_t DictionaryInfo;
+typedef struct mecab_ko_path_t            Path;
+typedef struct mecab_ko_node_t            Node;
 
 template <typename N, typename P> class Allocator;
 class Tagger;
@@ -780,7 +780,7 @@ class Tagger;
 /**
  * Lattice class
  */
-class MECAB_DLL_CLASS_EXTERN Lattice {
+class MECAB_KO_DLL_CLASS_EXTERN Lattice {
 public:
   /**
    * Clear all internal lattice data.
@@ -836,7 +836,7 @@ public:
 
   /**
    * Return sentence.
-   * If MECAB_NBEST or MECAB_PARTIAL mode is off, the returned poiner is the same as the one set by set_sentence().
+   * If MECAB_KO_NBEST or MECAB_KO_PARTIAL mode is off, the returned poiner is the same as the one set by set_sentence().
    * @return sentence
    */
   virtual const char *sentence() const = 0;
@@ -888,7 +888,7 @@ public:
 
   /**
    * Obtain next-best result. The internal linked list structure is updated.
-   * You should set MECAB_NBEST reques_type in advance.
+   * You should set MECAB_KO_NBEST reques_type in advance.
    * Return false if no more results are available or request_type is invalid.
    * @return boolean
    */
@@ -1064,7 +1064,7 @@ public:
 /**
  * Model class
  */
-class MECAB_DLL_CLASS_EXTERN Model {
+class MECAB_KO_DLL_CLASS_EXTERN Model {
 public:
   /**
    * Return DictionaryInfo linked list.
@@ -1125,7 +1125,7 @@ public:
 #ifndef SIWG
   /**
    * Factory method to create a new Model with a specified main's argc/argv-style parameters.
-   * Return NULL if new model cannot be initialized. Use MeCab::getLastError() to obtain the
+   * Return NULL if new model cannot be initialized. Use MeCabKo::getLastError() to obtain the
    * cause of the errors.
    * @return new Model object
    * @param argc number of parameters
@@ -1136,7 +1136,7 @@ public:
   /**
    * Factory method to create a new Model with a string parameter representation, i.e.,
    * "-d /user/local/mecab/dic/ipadic -Ochasen".
-   * Return NULL if new model cannot be initialized. Use MeCab::getLastError() to obtain the
+   * Return NULL if new model cannot be initialized. Use MeCabKo::getLastError() to obtain the
    * cause of the errors.
    * @return new Model object
    * @param arg single string representation of the argment.
@@ -1148,7 +1148,7 @@ public:
 /**
  * Tagger class
  */
-class MECAB_DLL_CLASS_EXTERN Tagger {
+class MECAB_KO_DLL_CLASS_EXTERN Tagger {
 public:
   /**
    * Handy static method.
@@ -1331,7 +1331,7 @@ public:
 
   /**
    * Set request type.
-   * This method is DEPRECATED. Use Lattice::set_request_type(MECAB_PARTIAL).
+   * This method is DEPRECATED. Use Lattice::set_request_type(MECAB_KO_PARTIAL).
    * @param request_type new request type assigned
    */
   virtual void set_request_type(int request_type) = 0;
@@ -1345,14 +1345,14 @@ public:
 
   /**
    * Return true if partial parsing mode is on.
-   * This method is DEPRECATED. Use Lattice::has_request_type(MECAB_PARTIAL).
+   * This method is DEPRECATED. Use Lattice::has_request_type(MECAB_KO_PARTIAL).
    * @return boolean
    */
   virtual bool  partial() const                             = 0;
 
   /**
    * set partial parsing mode.
-   * This method is DEPRECATED. Use Lattice::add_request_type(MECAB_PARTIAL) or Lattice::remove_request_type(MECAB_PARTIAL)
+   * This method is DEPRECATED. Use Lattice::add_request_type(MECAB_KO_PARTIAL) or Lattice::remove_request_type(MECAB_KO_PARTIAL)
    * @param partial partial mode
    */
   virtual void  set_partial(bool partial)                   = 0;
@@ -1373,14 +1373,14 @@ public:
 
   /**
    * Return true if all morphs output mode is on.
-   * This method is DEPRECATED. Use Lattice::has_request_type(MECAB_ALL_MORPHS).
+   * This method is DEPRECATED. Use Lattice::has_request_type(MECAB_KO_ALL_MORPHS).
    * @return boolean
    */
   virtual bool  all_morphs() const                          = 0;
 
   /**
    * set all-morphs output mode.
-   * This method is DEPRECATED. Use Lattice::add_request_type(MECAB_ALL_MORPHS) or Lattice::remove_request_type(MECAB_ALL_MORPHS)
+   * This method is DEPRECATED. Use Lattice::add_request_type(MECAB_KO_ALL_MORPHS) or Lattice::remove_request_type(MECAB_KO_ALL_MORPHS)
    * @param all_morphs
    */
   virtual void  set_all_morphs(bool all_morphs)             = 0;
@@ -1414,7 +1414,7 @@ public:
 #ifndef SIWG
   /**
    * Factory method to create a new Tagger with a specified main's argc/argv-style parameters.
-   * Return NULL if new model cannot be initialized. Use MeCab::getLastError() to obtain the
+   * Return NULL if new model cannot be initialized. Use MeCabKo::getLastError() to obtain the
    * cause of the errors.
    * @return new Tagger object
    * @param argc number of parameters
@@ -1425,7 +1425,7 @@ public:
   /**
    * Factory method to create a new Tagger with a string parameter representation, i.e.,
    * "-d /user/local/mecab/dic/ipadic -Ochasen".
-   * Return NULL if new model cannot be initialized. Use MeCab::getLastError() to obtain the
+   * Return NULL if new model cannot be initialized. Use MeCabKo::getLastError() to obtain the
    * cause of the errors.
    * @return new Model object
    * @param arg single string representation of the argment.
@@ -1444,27 +1444,27 @@ public:
 /**
  * Alias of Lattice::create()
  */
-MECAB_DLL_EXTERN Lattice     *createLattice();
+MECAB_KO_DLL_EXTERN Lattice     *createLattice();
 
 /**
  * Alias of Mode::create(argc, argv)
  */
-MECAB_DLL_EXTERN Model       *createModel(int argc, char **argv);
+MECAB_KO_DLL_EXTERN Model       *createModel(int argc, char **argv);
 
 /**
  * Alias of Mode::create(arg)
  */
-MECAB_DLL_EXTERN Model       *createModel(const char *arg);
+MECAB_KO_DLL_EXTERN Model       *createModel(const char *arg);
 
 /**
  * Alias of Tagger::create(argc, argv)
  */
-MECAB_DLL_EXTERN Tagger      *createTagger(int argc, char **argv);
+MECAB_KO_DLL_EXTERN Tagger      *createTagger(int argc, char **argv);
 
 /**
  * Alias of Tagger::create(arg)
  */
-MECAB_DLL_EXTERN Tagger      *createTagger(const char *arg);
+MECAB_KO_DLL_EXTERN Tagger      *createTagger(const char *arg);
 
 /**
  * delete Lattice object.
@@ -1472,7 +1472,7 @@ MECAB_DLL_EXTERN Tagger      *createTagger(const char *arg);
  * In some environment, e.g., MS-Windows, an object allocated inside a DLL must be deleted in the same DLL too.
  * @param lattice lattice object
  */
-MECAB_DLL_EXTERN void        deleteLattice(Lattice *lattice);
+MECAB_KO_DLL_EXTERN void        deleteLattice(Lattice *lattice);
 
 
 /**
@@ -1481,7 +1481,7 @@ MECAB_DLL_EXTERN void        deleteLattice(Lattice *lattice);
  * In some environment, e.g., MS-Windows, an object allocated inside a DLL must be deleted in the same DLL too.
  * @param model model object
  */
-MECAB_DLL_EXTERN void        deleteModel(Model *model);
+MECAB_KO_DLL_EXTERN void        deleteModel(Model *model);
 
 /**
  * delete Tagger object.
@@ -1489,21 +1489,21 @@ MECAB_DLL_EXTERN void        deleteModel(Model *model);
  * In some environment, e.g., MS-Windows, an object allocated inside a DLL must be deleted in the same DLL too.
  * @param tagger tagger object
  */
-MECAB_DLL_EXTERN void        deleteTagger(Tagger *tagger);
+MECAB_KO_DLL_EXTERN void        deleteTagger(Tagger *tagger);
 
 /**
  * Return last error string.
  * @return error string
  */
-MECAB_DLL_EXTERN const char*  getLastError();
+MECAB_KO_DLL_EXTERN const char*  getLastError();
 
 /**
  * An alias of getLastError.
  * It is kept for backward compatibility.
  * @return error string
  */
-MECAB_DLL_EXTERN const char*  getTaggerError();
+MECAB_KO_DLL_EXTERN const char*  getTaggerError();
 #endif
 }
 #endif
-#endif  /* MECAB_MECAB_H_ */
+#endif  /* MECAB_KO_MECAB_KO_H_ */

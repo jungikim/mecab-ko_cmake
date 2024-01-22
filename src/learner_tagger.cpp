@@ -13,7 +13,7 @@
 #include "learner_tagger.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 namespace {
 char *mystrdup(const char *str) {
   const size_t l = std::strlen(str);
@@ -78,11 +78,11 @@ bool EncoderLearnerTagger::read(std::istream *is,
     std::memset(m, 0, sizeof(LearnerNode));
 
     if (eos) {
-      m->stat = MECAB_EOS_NODE;
+      m->stat = MECAB_KO_EOS_NODE;
     } else {
       const size_t size = tokenize(line.get(), "\t", column, 2);
       CHECK_DIE(size == 2) << "format error: " << line.get();
-      m->stat    = MECAB_NOR_NODE;
+      m->stat    = MECAB_KO_NOR_NODE;
       m->surface = mystrdup(column[0]);
       m->feature = mystrdup(column[1]);
       m->length  = m->rlength = std::strlen(column[0]);
@@ -107,7 +107,7 @@ bool EncoderLearnerTagger::read(std::istream *is,
   initList();
 
   size_t pos = 0;
-  for (size_t i = 0; corpus[i]->stat != MECAB_EOS_NODE; ++i) {
+  for (size_t i = 0; corpus[i]->stat != MECAB_KO_EOS_NODE; ++i) {
     LearnerNode *found = 0;
     for (LearnerNode *node = lookup(pos); node; node = node->bnext) {
       if (node_cmp_eq(*(corpus[i]), *node, eval_size_, unk_eval_size_)) {
@@ -122,7 +122,7 @@ bool EncoderLearnerTagger::read(std::istream *is,
       node->surface  = begin_ + pos;
       node->length   = node->rlength = std::strlen(corpus[i]->surface);
       node->feature  = feature_index_->strdup(corpus[i]->feature);
-      node->stat     = MECAB_NOR_NODE;
+      node->stat     = MECAB_KO_NOR_NODE;
       node->fvector  = 0;
       node->wcost    = 0.0;
       node->bnext    = begin_node_list_[pos];
@@ -142,7 +142,7 @@ bool EncoderLearnerTagger::read(std::istream *is,
   for (size_t i = 0; i < corpus.size(); ++i) {
     LearnerNode *rNode = 0;
     for (LearnerNode *node = begin_node_list_[pos]; node; node = node->bnext) {
-      if (corpus[i]->stat == MECAB_EOS_NODE ||
+      if (corpus[i]->stat == MECAB_KO_EOS_NODE ||
           node_cmp_eq(*(corpus[i]), *node, eval_size_, unk_eval_size_)) {
         rNode = node;  // take last node
       }
@@ -164,7 +164,7 @@ bool EncoderLearnerTagger::read(std::istream *is,
       ++(*observed)[*f];
     }
 
-    if (lpath->rnode->stat != MECAB_EOS_NODE) {
+    if (lpath->rnode->stat != MECAB_KO_EOS_NODE) {
       for (const int *f = lpath->rnode->fvector; *f != -1; ++f) {
         if (*f >= static_cast<long>(observed->size())) {
           observed->resize(*f + 1);
@@ -178,7 +178,7 @@ bool EncoderLearnerTagger::read(std::istream *is,
     prev->anext = rNode;
     prev = rNode;
 
-    if (corpus[i]->stat == MECAB_EOS_NODE) {
+    if (corpus[i]->stat == MECAB_KO_EOS_NODE) {
       break;
     }
 

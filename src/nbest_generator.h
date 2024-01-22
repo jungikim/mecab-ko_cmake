@@ -3,14 +3,14 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_NBEST_GENERATOR_H_
-#define MECAB_NBEST_GENERATOR_H_
+#ifndef MECAB_KO_NBEST_GENERATOR_H_
+#define MECAB_KO_NBEST_GENERATOR_H_
 
 #include <queue>
-#include "mecab.h"
+#include "mecab-ko.h"
 #include "freelist.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 class NBestGenerator {
  private:
@@ -40,4 +40,4 @@ class NBestGenerator {
 };
 }
 
-#endif  // MECAB_NBEST_GENERATOR_H_
+#endif  // MECAB_KO_NBEST_GENERATOR_H_

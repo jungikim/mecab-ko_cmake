@@ -2,15 +2,15 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_CHARACTER_CATEGORY_H_
-#define MECAB_CHARACTER_CATEGORY_H_
+#ifndef MECAB_KO_CHARACTER_CATEGORY_H_
+#define MECAB_KO_CHARACTER_CATEGORY_H_
 
 #include "mmap.h"
 #include "scoped_ptr.h"
 #include "ucs.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 class Param;
 
 struct CharInfo {
@@ -51,7 +51,7 @@ class CharProperty {
                               const char *end,
                               size_t *mblen) const {
     unsigned short int t = 0;
-#ifndef MECAB_USE_UTF8_ONLY
+#ifndef MECAB_KO_USE_UTF8_ONLY
     switch (charset_) {
       case EUC_JP:  t = euc_to_ucs2(begin, end, mblen); break;
       case CP932:   t = cp932_to_ucs2(begin, end, mblen); break;
@@ -89,4 +89,4 @@ class CharProperty {
   whatlog                    what_;
 };
 }
-#endif   // MECAB_CHARACTER_CATEGORY_H_
+#endif   // MECAB_KO_CHARACTER_CATEGORY_H_

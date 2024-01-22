@@ -3,14 +3,14 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_UCS_H
-#define MECAB_UCS_H
+#ifndef MECAB_KO_UCS_H
+#define MECAB_KO_UCS_H
 
-#ifndef MECAB_USE_UTF8_ONLY
+#ifndef MECAB_KO_USE_UTF8_ONLY
 #include "ucstable.h"
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 
 // All internal codes are represented in UCS2,
 // if you want to use specific local codes, e.g, big5/euc-kr,
@@ -99,7 +99,7 @@ inline unsigned short utf16_to_ucs2(const char *begin, const char *end,
 }
 
 
-#ifndef MECAB_USE_UTF8_ONLY
+#ifndef MECAB_KO_USE_UTF8_ONLY
 inline unsigned short euc_to_ucs2(const char *begin, const char *end,
                                   size_t *mblen) {
   const size_t len = end - begin;

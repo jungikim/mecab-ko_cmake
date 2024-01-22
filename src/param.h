@@ -3,8 +3,8 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_PARAM_H
-#define MECAB_PARAM_H
+#ifndef MECAB_KO_PARAM_H
+#define MECAB_KO_PARAM_H
 
 #include <map>
 #include <string>
@@ -20,7 +20,7 @@ Target lexical_cast(Source arg) {
   Target result;
   if (!(interpreter << arg) || !(interpreter >> result) ||
       !(interpreter >> std::ws).eof()) {
-    MeCab::scoped_ptr<Target> r(new Target());  // return default value
+    MeCabKo::scoped_ptr<Target> r(new Target());  // return default value
     return *r;
   }
   return result;
@@ -32,7 +32,7 @@ std::string lexical_cast<std::string, std::string>(std::string arg) {
 }
 }
 
-namespace MeCab {
+namespace MeCabKo {
 
 struct Option {
   const char *name;

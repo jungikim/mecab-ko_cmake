@@ -26,45 +26,45 @@ namespace {
 
 #ifdef HAVE_ICONV
 const char * decode_charset_iconv(const char *str) {
-  const int charset = MeCab::decode_charset(str);
+  const int charset = MeCabKo::decode_charset(str);
   switch (charset) {
-    case MeCab::UTF8:
+    case MeCabKo::UTF8:
       return "UTF-8";
-    case MeCab::EUC_JP:
+    case MeCabKo::EUC_JP:
       return "EUC-JP";
-    case  MeCab::CP932:
+    case  MeCabKo::CP932:
       return "SHIFT-JIS";
-    case  MeCab::UTF16:
+    case  MeCabKo::UTF16:
       return "UTF-16";
-    case  MeCab::UTF16LE:
+    case  MeCabKo::UTF16LE:
       return "UTF-16LE";
-    case  MeCab::UTF16BE:
+    case  MeCabKo::UTF16BE:
       return "UTF-16BE";
     default:
       std::cerr << "charset " << str
-                << " is not defined, use " MECAB_DEFAULT_CHARSET;
-      return MECAB_DEFAULT_CHARSET;
+                << " is not defined, use " MECAB_KO_DEFAULT_CHARSET;
+      return MECAB_KO_DEFAULT_CHARSET;
   }
-  return MECAB_DEFAULT_CHARSET;
+  return MECAB_KO_DEFAULT_CHARSET;
 }
 #endif
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
 DWORD decode_charset_win32(const char *str) {
-  const int charset = MeCab::decode_charset(str);
+  const int charset = MeCabKo::decode_charset(str);
   switch (charset) {
-    case MeCab::UTF8:
+    case MeCabKo::UTF8:
       return CP_UTF8;
-    case MeCab::UTF16:
+    case MeCabKo::UTF16:
       return 1200;
-    case MeCab::UTF16LE:
+    case MeCabKo::UTF16LE:
       return 1200;
-    case MeCab::UTF16BE:
+    case MeCabKo::UTF16BE:
       return 1201;
-    case MeCab::EUC_JP:
+    case MeCabKo::EUC_JP:
       //      return 51932;
       return 20932;
-    case MeCab::CP932:
+    case MeCabKo::CP932:
       return 932;
     default:
       std::cerr << "charset " << str
@@ -76,7 +76,7 @@ DWORD decode_charset_win32(const char *str) {
 #endif
 }  // namespace
 
-namespace MeCab {
+namespace MeCabKo {
 bool Iconv::open(const char* from, const char* to) {
   ic_ = 0;
 #if defined HAVE_ICONV

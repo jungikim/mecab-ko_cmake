@@ -16,12 +16,12 @@
 #include "thread.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 namespace {
 
 #define DCONF(file) create_filename(dicdir, std::string(file)).c_str()
 
-#ifdef MECAB_USE_THREAD
+#ifdef MECAB_KO_USE_THREAD
 class learner_thread: public thread {
  public:
   unsigned short start_i;
@@ -152,7 +152,7 @@ class CRFLearner {
     std::cout << "freq:                " << freq      << std::endl;
     std::cout << "eval-size:           " << eval_size << std::endl;
     std::cout << "unk-eval-size:       " << unk_eval_size << std::endl;
-#ifdef MECAB_USE_THREAD
+#ifdef MECAB_KO_USE_THREAD
     std::cout << "threads:             " << thread_num << std::endl;
 #endif
     std::cout << "charset:             " <<
@@ -160,7 +160,7 @@ class CRFLearner {
     std::cout << "C(sigma^2):          " << C          << std::endl
               << std::endl;
 
-#ifdef MECAB_USE_THREAD
+#ifdef MECAB_KO_USE_THREAD
     std::vector<learner_thread> thread;
     if (thread_num > 1) {
       thread.resize(thread_num);
@@ -186,7 +186,7 @@ class CRFLearner {
       size_t micro_r = 0;
       size_t micro_c = 0;
 
-#ifdef MECAB_USE_THREAD
+#ifdef MECAB_KO_USE_THREAD
       if (thread_num > 1) {
         for (size_t i = 0; i < thread_num; ++i) {
           thread[i].start();
@@ -280,7 +280,7 @@ class CRFLearner {
 class Learner {
  public:
   static bool run(int argc, char **argv) {
-    static const MeCab::Option long_options[] = {
+    static const MeCabKo::Option long_options[] = {
       { "dicdir",   'd',  ".",     "DIR",
         "set DIR as dicdir(default \".\" )" },
       { "old-model",   'M',  0,     "FILE",
@@ -315,6 +315,6 @@ class Learner {
 }
 }
 
-int mecab_cost_train(int argc, char **argv) {
-  return MeCab::Learner::run(argc, argv);
+int mecab_ko_cost_train(int argc, char **argv) {
+  return MeCabKo::Learner::run(argc, argv);
 }

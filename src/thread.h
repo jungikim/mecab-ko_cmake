@@ -3,8 +3,8 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_THREAD_H
-#define MECAB_THREAD_H
+#ifndef MECAB_KO_THREAD_H
+#define MECAB_KO_THREAD_H
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -28,18 +28,18 @@
 #endif
 
 #if defined HAVE_PTHREAD_H
-#define MECAB_USE_THREAD 1
+#define MECAB_KO_USE_THREAD 1
 #endif
 
 #if (defined(_WIN32) && !defined(__CYGWIN__))
-#define MECAB_USE_THREAD 1
+#define MECAB_KO_USE_THREAD 1
 #define BEGINTHREAD(src, stack, func, arg, flag, id)                    \
   (HANDLE)_beginthreadex((void *)(src), (unsigned)(stack),              \
                          (unsigned(_stdcall *)(void *))(func), (void *)(arg), \
                          (unsigned)(flag), (unsigned *)(id))
 #endif
 
-namespace MeCab {
+namespace MeCabKo {
 
 #if (defined(_WIN32) && !defined(__CYGWIN__))
 #undef atomic_add

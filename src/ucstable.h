@@ -3,10 +3,10 @@
 //
 //  Copyright(C) 2001-2006 Taku Kudo <taku@chasen.org>
 //  Copyright(C) 2004-2006 Nippon Telegraph and Telephone Corporation
-#ifndef MECAB_UCS_TABLE_H
-#define MECAB_UCS_TABLE_H
+#ifndef MECAB_KO_UCS_TABLE_H
+#define MECAB_KO_UCS_TABLE_H
 
-namespace MeCab {
+namespace MeCabKo {
 
   /* CP932 to UCS2 table */
 static const unsigned short int cp932_tbl[65536] = {

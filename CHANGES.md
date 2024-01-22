@@ -1,3 +1,15 @@
+# mecab-ko_cmake ChangeLog
+
+## Changes in file names:
+*  mecab -> mecab-ko
+*  mecabrc -> mecabkorc
+## Changes in source code (namespace, macro, function, and variable names):
+*  mecab_ -> mecab_ko_
+*  MECAB_ -> MECAB_KO_
+*  MeCab -> MeCabKo
+
+* mecab-ko-dic from 'https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-${VERSION}.tar.gz'
+
 # mecab-ko ChangeLog
 
 ## mecab-ko-0.9.2 (mecab-0.996)

@@ -14,7 +14,7 @@
 #include "param.h"
 #include "utils.h"
 
-namespace MeCab {
+namespace MeCabKo {
 
 namespace {
 struct Range {

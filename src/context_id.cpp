@@ -10,7 +10,7 @@
 
 namespace {
 
-using namespace MeCab;
+using namespace MeCabKo;
 
 bool open_map(const char *filename,
               std::map<std::string, int> *cmap,
@@ -56,7 +56,7 @@ bool save(const char* filename,
 }
 }
 
-namespace MeCab {
+namespace MeCabKo {
 
 void ContextID::clear() {
   left_.clear();
