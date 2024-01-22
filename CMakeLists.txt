@@ -12,7 +12,7 @@ include(CheckIncludeFile)
 include(CheckFunctionExists)
 
 set(PACKAGE mecab-ko)
-set(VERSION 0.996/ko-0.9.2)
+set(VERSION 0.996_ko-0.9.2)
 set(DIC_VERSION "102")
 set(MECAB_KO_USE_UTF8_ONLY "-DMECAB_KO_USE_UTF8_ONLY")
 set(MECAB_KO_DEFAULT_RC ${CMAKE_INSTALL_SYSCONFDIR}/mecabkorc)
@@ -29,6 +29,8 @@ add_compile_options(
   -DMECAB_KO_DEFAULT_RC="${MECAB_KO_DEFAULT_RC}"
 )
 set(CMAKE_MODULE_LINKER_FLAGS -no-undefined -version-info ${LTVERSION})
+
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 message(STATUS "Iconv_FOUND: \"${Iconv_FOUND}\"")
 message(STATUS "Iconv_INCLUDE_DIR: \"${Iconv_INCLUDE_DIR}\"")
@@ -174,10 +176,10 @@ if(HAVE_OSX_ATOMIC_OPS)
   add_compile_options(-DHAVE_OSX_ATOMIC_OPS)
 endif()
 
-list(APPEND MECAB_LIBS
-  "-lstdc++"
-  ${Iconv_LIBRARIES}
-  )
+set(MECAB_LIBS "-lstdc++")
+if(Iconv_FOUND)
+  set(MECAB_LIBS "${MECAB_LIBS} -liconv ${Iconv_LIBRARIES}")
+endif()
 
 set(CXX ${CMAKE_CXX_COMPILER})
 set(CC ${CMAKE_C_COMPILER})
@@ -262,6 +264,7 @@ else()
 endif()
 set_target_properties(mecab-ko PROPERTIES VERSION ${VERSION})
 target_include_directories(mecab-ko PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(mecab-ko ${MECAB_LIBS})
 
 add_executable(mecab-ko-bin src/mecab-ko.cpp)
 set_property(TARGET mecab-ko-bin PROPERTY OUTPUT_NAME mecab-ko)
@@ -271,12 +274,12 @@ add_executable(mecab-ko-cost-train src/mecab-cost-train.cpp)
 add_executable(mecab-ko-system-eval src/mecab-system-eval.cpp)
 add_executable(mecab-ko-test-gen src/mecab-test-gen.cpp)
 
-target_link_libraries(mecab-ko-bin mecab-ko ${Iconv_LIBRARIES})
-target_link_libraries(mecab-ko-dict-index mecab-ko ${Iconv_LIBRARIES})
-target_link_libraries(mecab-ko-dict-gen mecab-ko ${Iconv_LIBRARIES})
-target_link_libraries(mecab-ko-cost-train mecab-ko ${Iconv_LIBRARIES})
-target_link_libraries(mecab-ko-system-eval mecab-ko ${Iconv_LIBRARIES})
-target_link_libraries(mecab-ko-test-gen mecab-ko ${Iconv_LIBRARIES})
+target_link_libraries(mecab-ko-bin mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko-dict-index mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko-dict-gen mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko-cost-train mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko-system-eval mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko-test-gen mecab-ko ${MECAB_LIBS})
 
 add_subdirectory(mecab-ko-dic)
 
