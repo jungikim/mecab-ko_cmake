@@ -177,8 +177,8 @@ if(HAVE_OSX_ATOMIC_OPS)
 endif()
 
 set(MECAB_LIBS "-lstdc++")
-if(Iconv_FOUND)
-  set(MECAB_LIBS "${MECAB_LIBS} -liconv ${Iconv_LIBRARIES}")
+if(Iconv_LIBRARIES)
+  set(MECAB_LIBS "${MECAB_LIBS} ${Iconv_LIBRARIES}")
 endif()
 
 set(CXX ${CMAKE_CXX_COMPILER})
