@@ -13,10 +13,10 @@ include(CheckFunctionExists)
 
 set(PACKAGE mecab-ko)
 set(VERSION 0.996_ko-0.9.2)
-set(DIC_VERSION "102")
+set(MECAB_KO_DIC_VERSION "102")
 set(MECAB_KO_USE_UTF8_ONLY "-DMECAB_KO_USE_UTF8_ONLY")
 set(MECAB_KO_DEFAULT_RC ${CMAKE_INSTALL_SYSCONFDIR}/mecabkorc)
-set(LTVERSION "2:0:0")
+set(MECAB_KO_LTVERSION "2:0:0")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall")
@@ -24,11 +24,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall")
 add_compile_options(
 	-DPACKAGE="${PACKAGE}"
 	-DVERSION="${VERSION}"
-	-DDIC_VERSION=${DIC_VERSION}
+	-DDIC_VERSION=${MECAB_KO_DIC_VERSION}
   ${MECAB_KO_USE_UTF8_ONLY}
   -DMECAB_KO_DEFAULT_RC="${MECAB_KO_DEFAULT_RC}"
 )
-set(CMAKE_MODULE_LINKER_FLAGS -no-undefined -version-info ${LTVERSION})
+set(CMAKE_MODULE_LINKER_FLAGS -no-undefined -version-info ${MECAB_KO_LTVERSION})
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
@@ -176,9 +176,9 @@ if(HAVE_OSX_ATOMIC_OPS)
   add_compile_options(-DHAVE_OSX_ATOMIC_OPS)
 endif()
 
-set(MECAB_LIBS "-lstdc++")
+set(MECAB_KO_LIBS "-lstdc++")
 if(Iconv_LIBRARIES)
-  set(MECAB_LIBS "${MECAB_LIBS} ${Iconv_LIBRARIES}")
+  set(MECAB_KO_LIBS "${MECAB_KO_LIBS} ${Iconv_LIBRARIES}")
 endif()
 
 set(CXX ${CMAKE_CXX_COMPILER})
@@ -192,7 +192,7 @@ set(sysconfdir ${CMAKE_INSTALL_SYSCONFDIR})
 message(STATUS "CXX: \"${CXX}\"")
 message(STATUS "CC: \"${CC}\"")
 message(STATUS "VERSION: \"${VERSION}\"")
-message(STATUS "MECAB_LIBS: \"${MECAB_LIBS}\"")
+message(STATUS "MECAB_KO_LIBS: \"${MECAB_KO_LIBS}\"")
 message(STATUS "prefix: \"${prefix}\"")
 message(STATUS "exec_prefix: \"${exec_prefix}\"")
 message(STATUS "includedir: \"${includedir}\"")
@@ -203,7 +203,7 @@ message(STATUS "sysconfdir: \"${sysconfdir}\"")
 configure_file(mecab-ko-config.in mecab-ko-config @ONLY)
 configure_file(mecabkorc.in mecabkorc @ONLY)
 
-set(SOURCES
+set(MECAB_KO_SOURCES
   src/viterbi.cpp
   src/tagger.cpp
   src/utils.cpp
@@ -258,13 +258,13 @@ set(SOURCES
   )
 
 if(COMMAND create_library)
-  create_library(mecab-ko SHARED ${SOURCES})
+  create_library(mecab-ko SHARED ${MECAB_KO_SOURCES})
 else()
-  add_library(mecab-ko ${SOURCES})
+  add_library(mecab-ko ${MECAB_KO_SOURCES})
 endif()
 set_target_properties(mecab-ko PROPERTIES VERSION ${VERSION})
 target_include_directories(mecab-ko PUBLIC ${CMAKE_SOURCE_DIR})
-target_link_libraries(mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko ${MECAB_KO_LIBS})
 
 add_executable(mecab-ko-bin src/mecab-ko.cpp)
 set_property(TARGET mecab-ko-bin PROPERTY OUTPUT_NAME mecab-ko)
@@ -274,12 +274,12 @@ add_executable(mecab-ko-cost-train src/mecab-cost-train.cpp)
 add_executable(mecab-ko-system-eval src/mecab-system-eval.cpp)
 add_executable(mecab-ko-test-gen src/mecab-test-gen.cpp)
 
-target_link_libraries(mecab-ko-bin mecab-ko ${MECAB_LIBS})
-target_link_libraries(mecab-ko-dict-index mecab-ko ${MECAB_LIBS})
-target_link_libraries(mecab-ko-dict-gen mecab-ko ${MECAB_LIBS})
-target_link_libraries(mecab-ko-cost-train mecab-ko ${MECAB_LIBS})
-target_link_libraries(mecab-ko-system-eval mecab-ko ${MECAB_LIBS})
-target_link_libraries(mecab-ko-test-gen mecab-ko ${MECAB_LIBS})
+target_link_libraries(mecab-ko-bin mecab-ko ${MECAB_KO_LIBS})
+target_link_libraries(mecab-ko-dict-index mecab-ko ${MECAB_KO_LIBS})
+target_link_libraries(mecab-ko-dict-gen mecab-ko ${MECAB_KO_LIBS})
+target_link_libraries(mecab-ko-cost-train mecab-ko ${MECAB_KO_LIBS})
+target_link_libraries(mecab-ko-system-eval mecab-ko ${MECAB_KO_LIBS})
+target_link_libraries(mecab-ko-test-gen mecab-ko ${MECAB_KO_LIBS})
 
 add_subdirectory(mecab-ko-dic)
 

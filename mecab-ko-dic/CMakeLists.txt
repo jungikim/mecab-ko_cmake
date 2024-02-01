@@ -1,62 +1,60 @@
 include(GNUInstallDirs)
 
-set(MECAB_DICDIR "${CMAKE_INSTALL_FULL_LIBDIR}/mecab-ko/dic/mecab-ko-dic")
+set(MECAB_KO_DIC_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/mecab-ko/dic/mecab-ko-dic")
 
 find_package(Python COMPONENTS Interpreter REQUIRED)
 
 set(VERSION 2.1.1-20180720)
-set(PKG https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-${VERSION}.tar.gz)
-set(TGTTAR "${CMAKE_CURRENT_BINARY_DIR}/mecab-ko-dic-${VERSION}.tar.gz")
-set(TGTDIR "${CMAKE_CURRENT_BINARY_DIR}/mecab-ko-dic-${VERSION}")
+set(MECAB_KO_DIC_PKG https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-${VERSION}.tar.gz)
+set(MECAB_KO_DIC_TGTTAR "${CMAKE_CURRENT_BINARY_DIR}/mecab-ko-dic-${VERSION}.tar.gz")
+set(MECAB_KO_DIC_TGTDIR "${CMAKE_CURRENT_BINARY_DIR}/mecab-ko-dic-${VERSION}")
 
-# message(STATUS "PKG: \"${PKG}\"")
-# message(STATUS "TGTTAR: \"${TGTTAR}\"")
-# message(STATUS "TGTDIR: \"${TGTDIR}\"")
-
-if (EXISTS "${TGTTAR}")
-  message(STATUS "${PKG} already downloaded")
+if (EXISTS "${MECAB_KO_DIC_TGTTAR}")
+  message(STATUS "${MECAB_KO_DIC_PKG} already downloaded")
 else()
-  message(STATUS "Downloading ${PKG}")
-  file(DOWNLOAD ${PKG} ${TGTTAR})
+  message(STATUS "Downloading ${MECAB_KO_DIC_PKG}")
+  file(DOWNLOAD ${MECAB_KO_DIC_PKG} ${MECAB_KO_DIC_TGTTAR})
 endif()
 
 file(ARCHIVE_EXTRACT
-  INPUT ${TGTTAR}
+  INPUT ${MECAB_KO_DIC_TGTTAR}
   DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
   VERBOSE
   )
 
-set(MECAB_DICT_INDEX "${CMAKE_CURRENT_BINARY_DIR}/../mecab-ko-dict-index")
-set(CHARSET "utf-8")  # (euc-jp/sjis/utf-8)
+set(MECAB_KO_DICT_INDEX "${CMAKE_CURRENT_BINARY_DIR}/../mecab-ko-dict-index")
+set(MECAB_KO_DIC_CHARSET "utf-8")  # (euc-jp/sjis/utf-8)
 
-# message(STATUS "MECAB_DICT_INDEX: \"${MECAB_DICT_INDEX}\"")
-# message(STATUS "CHARSET: \"${CHARSET}\"")
-# message(STATUS "MECAB_DICDIR: \"${MECAB_DICDIR}\"")
-
-set(BYPRODUCTS
-  "${TGTDIR}/char.bin"
-  "${TGTDIR}/matrix.bin"
-  "${TGTDIR}/model.bin"
-  "${TGTDIR}/sys.dic"
-  "${TGTDIR}/unk.dic"
+set(MECAB_KO_DIC_BYPRODUCTS
+  "${MECAB_KO_DIC_TGTDIR}/char.bin"
+  "${MECAB_KO_DIC_TGTDIR}/matrix.bin"
+  "${MECAB_KO_DIC_TGTDIR}/model.bin"
+  "${MECAB_KO_DIC_TGTDIR}/sys.dic"
+  "${MECAB_KO_DIC_TGTDIR}/unk.dic"
   )
 
 add_custom_target(
   mecab-ko-dic ALL
-  COMMAND ${MECAB_DICT_INDEX} -d ${TGTDIR} -o ${TGTDIR} -f utf-8 -t ${CHARSET}
-  DEPENDS ${MECAB_DICT_INDEX} ${TGTDIR}
-  BYPRODUCTS ${BYPRODUCTS}
+  COMMAND ${MECAB_KO_DICT_INDEX} -d ${MECAB_KO_DIC_TGTDIR} -o ${MECAB_KO_DIC_TGTDIR} -f utf-8 -t ${MECAB_KO_DIC_CHARSET}
+  DEPENDS ${MECAB_KO_DICT_INDEX} ${MECAB_KO_DIC_TGTDIR}
+  BYPRODUCTS ${MECAB_KO_DIC_BYPRODUCTS}
   )
 
-file(GLOB DIC_DATA
-  ${BYPRODUCTS}
-  "${TGTDIR}/*.def"
-  "${TGTDIR}/dicrc"
+set(MECAB_KO_DIC_DATA
+  ${MECAB_KO_DIC_BYPRODUCTS}
+  "${MECAB_KO_DIC_TGTDIR}/char.def"
+  "${MECAB_KO_DIC_TGTDIR}/feature.def"
+  "${MECAB_KO_DIC_TGTDIR}/left-id.def"
+  "${MECAB_KO_DIC_TGTDIR}/matrix.def"
+  "${MECAB_KO_DIC_TGTDIR}/model.def"
+  "${MECAB_KO_DIC_TGTDIR}/pos-id.def"
+  "${MECAB_KO_DIC_TGTDIR}/rewrite.def"
+  "${MECAB_KO_DIC_TGTDIR}/right-id.def"
+  "${MECAB_KO_DIC_TGTDIR}/unk.def"
+  "${MECAB_KO_DIC_TGTDIR}/dicrc"
   )
-
-# message(STATUS "DIC_DATA: \"${DIC_DATA}\"")
 
 install(FILES
-  ${DIC_DATA}
-  DESTINATION "${MECAB_DICDIR}"
+  ${MECAB_KO_DIC_DATA}
+  DESTINATION "${MECAB_KO_DIC_DIR}"
   )
