@@ -128,6 +128,10 @@ if(HAVE_MEMORY_H)
 endif()
 if(HAVE_PTHREAD_H)
   add_compile_options(-DHAVE_PTHREAD_H)
+  find_package(Threads REQUIRED)
+  if(THREADS_HAVE_PTHREAD_ARG)
+    add_compile_options(-pthread)
+  endif()
 endif()
 if(HAVE_TLS_KEYWORD)
   add_compile_options(-DHAVE_TLS_KEYWORD)
@@ -179,6 +183,9 @@ endif()
 set(MECAB_KO_LIBS "-lstdc++")
 if(Iconv_LIBRARIES)
   set(MECAB_KO_LIBS "${MECAB_KO_LIBS} ${Iconv_LIBRARIES}")
+endif()
+if(CMAKE_THREAD_LIBS_INIT)
+ set(MECAB_LIBS "${MECAB_LIBS} ${CMAKE_THREAD_LIBS_INIT}")
 endif()
 
 set(CXX ${CMAKE_CXX_COMPILER})
@@ -282,6 +289,7 @@ target_link_libraries(mecab-ko-system-eval mecab-ko ${MECAB_KO_LIBS})
 target_link_libraries(mecab-ko-test-gen mecab-ko ${MECAB_KO_LIBS})
 
 add_subdirectory(mecab-ko-dic)
+add_dependencies(mecab-ko-dic mecab-ko)
 
 install(
   TARGETS mecab-ko mecab-ko-bin
