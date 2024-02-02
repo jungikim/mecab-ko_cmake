@@ -84,3 +84,55 @@ jobs:
     #   # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
     #   # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
     #   run: ctest --build-config ${{ matrix.build_type }}
+
+
+  build-on-cibuildwheel:
+    name: Build on ${{ matrix.os }} for ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, macos-11, windows-2019]
+        arch: [auto64]
+        include:
+        - os: ubuntu-20.04
+          arch: aarch64
+        - os: macos-11
+          arch: arm64
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: docker/setup-qemu-action@v2
+        if: ${{ matrix.arch == 'aarch64' }}
+        name: Set up QEMU
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.11.2
+        with:
+          package-dir: bindings/python
+          output-dir: wheelhouse
+        env:
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
+          CIBW_ENVIRONMENT_LINUX: INSTALL_ROOT='${{ github.workspace }}/install'          
+          CIBW_ENVIRONMENT_MACOS: INSTALL_ROOT='${{ github.workspace }}/install'
+          CIBW_ENVIRONMENT_WINDOWS: INSTALL_ROOT='${{ github.workspace }}\install'
+          CIBW_BEFORE_ALL: tools/prepare_build_environment.sh
+          # CIBW_BEFORE_ALL_WINDOWS: bash tools/prepare_build_environment_windows.sh
+          # CIBW_BEFORE_BUILD: pip install pybind11==2.10.1
+          # CIBW_TEST_COMMAND: pytest {project}/bindings/python/test/test.py
+          # CIBW_TEST_REQUIRES: pytest
+          CIBW_SKIP: pp* *-musllinux_*
+          CIBW_TEST_SKIP: "*-macosx_arm64"
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: LD_LIBRARY_PATH=${INSTALL_ROOT}/lib:${INSTALL_ROOT}/lib64:${LD_LIBRARY_PATH} auditwheel repair -w {dest_dir} {wheel}
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: DYLD_LIBRARY_PATH=${INSTALL_ROOT}/lib:${INSTALL_ROOT}/lib64:${DYLD_LIBRARY_PATH} delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
+
+      # - name: Upload Python wheels
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: python-wheels
+      #     path: wheelhouse
