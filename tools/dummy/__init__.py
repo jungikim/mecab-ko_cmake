@@ -17,9 +17,4 @@ if sys.platform == "win32":
     for library in glob.glob(os.path.join(package_dir, "*.dll")):
         ctypes.CDLL(library)
 
-from dummy._ext import (
-    Dummy
-)
-
-d = Dummy()
-print(d())
+from dummy._ext import Dummy
