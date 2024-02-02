@@ -4,7 +4,7 @@
 import sys
 
 import pybind11
-from setuptools import Extension, find_packages, setup
+from setuptools import Extension, setup
 
 include_dirs = [pybind11.get_include()]
 library_dirs = []
@@ -30,7 +30,6 @@ setup(
     version="0.0.1",
     description="dummy package",
     packages=["dummy"],
-    packages=find_packages(),
     python_requires=">=3.6",
     ext_modules=[dummy_module],
 )
