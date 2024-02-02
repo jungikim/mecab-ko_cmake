@@ -122,7 +122,7 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: INSTALL_ROOT='${{ github.workspace }}/install'
           CIBW_ENVIRONMENT_WINDOWS: INSTALL_ROOT='${{ github.workspace }}\install'
           CIBW_BEFORE_ALL: tools/prepare_build_environment.sh
-          # CIBW_BEFORE_ALL_WINDOWS: bash tools/prepare_build_environment_windows.sh
+          CIBW_BEFORE_ALL_WINDOWS: bash tools/prepare_build_environment.sh
           # CIBW_BEFORE_BUILD: pip install pybind11==2.10.1
           # CIBW_TEST_COMMAND: pytest {project}/bindings/python/test/test.py
           # CIBW_TEST_REQUIRES: pytest
