@@ -20,3 +20,6 @@ if sys.platform == "win32":
 from dummy._ext import (
     Dummy
 )
+
+d = Dummy()
+print(d())
