@@ -112,7 +112,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.11.2
         with:
-          package-dir: bindings/python
+          package-dir: tools
           output-dir: wheelhouse
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
