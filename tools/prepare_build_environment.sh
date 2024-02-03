@@ -7,7 +7,7 @@ ROOT_DIR=$PWD
 CMAKE_EXTRA_ARGS=""
 
 if [ "$CIBW_ARCHS" == "arm64" ]; then
-    CMAKE_EXTRA_ARGS="-DCMAKE_OSX_ARCHITECTURES=arm64"
+    CMAKE_EXTRA_ARGS="-DCMAKE_OSX_ARCHITECTURES=x86_64|arm64"
 fi
 
 pip install "cmake==3.28.1"
