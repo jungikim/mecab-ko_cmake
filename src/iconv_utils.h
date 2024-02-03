@@ -11,6 +11,9 @@
 #endif
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "windows.h"
 #endif
 

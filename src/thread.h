@@ -14,6 +14,9 @@
 #include <pthread.h>
 #else
 #ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 #include <process.h>
 #endif
