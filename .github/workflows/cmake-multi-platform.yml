@@ -127,7 +127,6 @@ jobs:
           # CIBW_TEST_COMMAND: pytest {project}/bindings/python/test/test.py
           # CIBW_TEST_REQUIRES: pytest
           CIBW_SKIP: pp* *-musllinux_*
-          CIBW_TEST_SKIP: "*-macosx_arm64"
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: LD_LIBRARY_PATH=${INSTALL_ROOT}/lib:${INSTALL_ROOT}/lib64:${LD_LIBRARY_PATH} auditwheel repair -w {dest_dir} {wheel}
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: DYLD_LIBRARY_PATH=${INSTALL_ROOT}/lib:${INSTALL_ROOT}/lib64:${DYLD_LIBRARY_PATH} delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
 
