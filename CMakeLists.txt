@@ -296,8 +296,9 @@ target_link_libraries(mecab-ko-cost-train mecab-ko ${MECAB_KO_LIBS})
 target_link_libraries(mecab-ko-system-eval mecab-ko ${MECAB_KO_LIBS})
 target_link_libraries(mecab-ko-test-gen mecab-ko ${MECAB_KO_LIBS})
 
-add_subdirectory(mecab-ko-dic)
-add_dependencies(mecab-ko-dic mecab-ko-dict-index)
+#add_subdirectory(mecab-ko-dic)
+#add_dependencies(mecab-ko-dic mecab-ko-dict-index)
+add_subdirectory(mecab-ko-dic-pip)
 
 install(
   TARGETS mecab-ko mecab-ko-bin

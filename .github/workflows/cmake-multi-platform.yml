@@ -99,10 +99,6 @@ jobs:
           arch: aarch64
         - os: macos-11
           arch: arm64
-        exclude: # arm64 binary cross-compiled on x86 cannot be run on x86 to create the dictionary resource;
-                 # we exclude this for now.
-        - os: macos-11
-          arch: arm64
 
     steps:
       - uses: actions/checkout@v3
